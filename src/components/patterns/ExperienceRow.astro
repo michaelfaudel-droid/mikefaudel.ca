@@ -1,0 +1,44 @@
+---
+interface Props {
+  role: string;
+  company: string;
+  years: string;
+}
+
+const { role, company, years } = Astro.props;
+---
+
+<li class="row">
+  <span class="company">{company}</span>
+  <span class="role">{role}</span>
+  <span class="years">{years}</span>
+</li>
+
+<style>
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: var(--space-sm);
+    padding-block: var(--space-sm);
+    border-bottom: var(--border-width) solid var(--color-border);
+  }
+
+  .company {
+    color: var(--color-text-strong);
+  }
+
+  .role,
+  .years {
+    color: var(--color-text-muted);
+  }
+
+  @media (width < 40rem) {
+    .row {
+      grid-template-columns: 1fr auto;
+    }
+
+    .role {
+      grid-row: 2;
+    }
+  }
+</style>

@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import CaseStudyCard from "./CaseStudyCard.astro";
+
+interface Props {
+  featuredOnly?: boolean;
+}
+
+const { featuredOnly = false } = Astro.props;
+const entries = (await getCollection("work", ({ data }) => !featuredOnly || data.featured)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<div class="grid">
+  {
+    entries.map(({ id, data }) => (
+      <CaseStudyCard
+        href={`/work/${id}`}
+        title={data.title}
+        summary={data.summary}
+        company={data.company}
+        tags={data.tags}
+        tint={data.tint}
+      />
+    ))
+  }
+</div>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 28rem), 1fr));
+    gap: var(--space-md);
+  }
+</style>

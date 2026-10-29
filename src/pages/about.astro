@@ -1,0 +1,20 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/ui/Container.astro";
+import SectionHeading from "../components/ui/SectionHeading.astro";
+---
+
+<BaseLayout title="About">
+  <Container width="prose" class="page">
+    <SectionHeading as="h1" eyebrow="About">Hi, I'm Mike.</SectionHeading>
+    <div class="prose">
+      <p>TODO: paste the About copy from Framer.</p>
+    </div>
+  </Container>
+</BaseLayout>
+
+<style>
+  :global(.page) {
+    padding-top: var(--space-section);
+  }
+</style>

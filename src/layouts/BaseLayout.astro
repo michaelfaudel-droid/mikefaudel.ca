@@ -1,0 +1,63 @@
+---
+import "../styles/global.css";
+import { ClientRouter } from "astro:transitions";
+import SiteHeader from "../components/SiteHeader.astro";
+import SiteFooter from "../components/SiteFooter.astro";
+
+interface Props {
+  title?: string;
+  description?: string;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description = "Mike Faudel — Product Designer making complex AI feel effortless.",
+  noindex = false,
+} = Astro.props;
+
+const fullTitle = title ? `${title} · Mike Faudel` : "Mike Faudel — Product Designer";
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <ClientRouter />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <SiteHeader />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>
+
+<style>
+  .skip-link {
+    position: absolute;
+    left: var(--space-sm);
+    top: calc(-1 * var(--space-3xl));
+    padding: var(--space-2xs) var(--space-sm);
+    background: var(--color-accent);
+    color: var(--color-on-accent);
+    border-radius: var(--radius-sm);
+    z-index: 10;
+  }
+
+  .skip-link:focus {
+    top: var(--space-sm);
+  }
+</style>

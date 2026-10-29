@@ -1,0 +1,275 @@
+---
+/*
+ * Living styleguide. Renders every token and component so changes can be
+ * checked in one place. Hidden from search engines; add new tokens and
+ * components here when you create them.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/ui/Container.astro";
+import Button from "../components/ui/Button.astro";
+import Tag from "../components/ui/Tag.astro";
+import SectionHeading from "../components/ui/SectionHeading.astro";
+import CaseStudyCard from "../components/patterns/CaseStudyCard.astro";
+import ExperienceRow from "../components/patterns/ExperienceRow.astro";
+
+const colors = [
+  "--color-bg",
+  "--color-surface",
+  "--color-surface-raised",
+  "--color-border",
+  "--color-text",
+  "--color-text-strong",
+  "--color-text-muted",
+  "--color-text-subtle",
+  "--color-accent",
+];
+const tints = ["--tint-blue", "--tint-purple", "--tint-green", "--tint-brown", "--tint-red"];
+const textSizes = [
+  "--text-display",
+  "--text-2xl",
+  "--text-xl",
+  "--text-lg",
+  "--text-md",
+  "--text-base",
+  "--text-sm",
+  "--text-xs",
+];
+const spaces = [
+  "--space-3xs",
+  "--space-2xs",
+  "--space-xs",
+  "--space-sm",
+  "--space-md",
+  "--space-lg",
+  "--space-xl",
+  "--space-2xl",
+  "--space-3xl",
+];
+const radii = ["--radius-sm", "--radius-md", "--radius-lg", "--radius-pill"];
+---
+
+<BaseLayout title="Styleguide" noindex>
+  <Container class="page">
+    <SectionHeading as="h1" eyebrow="Design system">Styleguide</SectionHeading>
+    <p class="intro">
+      Every token lives in <code>src/styles/tokens.css</code>. Components use semantic tokens only.
+    </p>
+
+    <section>
+      <h2>Colour</h2>
+      <div class="swatches">
+        {
+          [...colors, ...tints].map((name) => (
+            <figure class="swatch">
+              <div class="chip" style={`background: var(${name})`} />
+              <figcaption>
+                <code>{name}</code>
+                <span class="value" data-token={name} />
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </section>
+
+    <section>
+      <h2>Type scale</h2>
+      <div class="stack">
+        {
+          textSizes.map((name) => (
+            <div class="type-row">
+              <code>{name}</code>
+              <p style={`font-size: var(${name}); line-height: var(--leading-snug)`}>
+                Making complex AI feel effortless
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section>
+      <h2>Spacing</h2>
+      <div class="stack">
+        {
+          spaces.map((name) => (
+            <div class="space-row">
+              <code>{name}</code>
+              <div class="bar" style={`width: var(${name})`} />
+              <span class="value" data-token={name} />
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section>
+      <h2>Radius</h2>
+      <div class="swatches">
+        {
+          radii.map((name) => (
+            <figure class="swatch">
+              <div class="chip chip--radius" style={`border-radius: var(${name})`} />
+              <figcaption>
+                <code>{name}</code>
+              </figcaption>
+            </figure>
+          ))
+        }
+      </div>
+    </section>
+
+    <section>
+      <h2>Buttons</h2>
+      <div class="row">
+        <Button href="#">Primary</Button>
+        <Button href="#" variant="secondary">Secondary</Button>
+        <Button href="#" variant="ghost">Ghost</Button>
+        <Button href="#" size="sm">Small</Button>
+      </div>
+    </section>
+
+    <section>
+      <h2>Tags</h2>
+      <div class="row">
+        <Tag>Conversational AI</Tag>
+        <Tag>Platform</Tag>
+        <Tag>Feature design</Tag>
+      </div>
+    </section>
+
+    <section>
+      <h2>Section heading</h2>
+      <SectionHeading eyebrow="Eyebrow">Section title</SectionHeading>
+    </section>
+
+    <section>
+      <h2>Case study card</h2>
+      <div class="card-demo">
+        <CaseStudyCard
+          href="#"
+          title="Example case study title"
+          summary="A one-sentence summary of the problem and the outcome."
+          company="Company"
+          tags={["Tag one", "Tag two"]}
+          tint="purple"
+        />
+      </div>
+    </section>
+
+    <section>
+      <h2>Experience row</h2>
+      <ul class="experience">
+        <ExperienceRow role="Product Designer" company="Company" years="2020–2023" />
+      </ul>
+    </section>
+  </Container>
+</BaseLayout>
+
+<script>
+  // Print each token's resolved value next to its sample.
+  const show = () => {
+    const styles = getComputedStyle(document.documentElement);
+    document.querySelectorAll<HTMLElement>("[data-token]").forEach((el) => {
+      el.textContent = styles.getPropertyValue(el.dataset.token!).trim();
+    });
+  };
+  show();
+  document.addEventListener("astro:page-load", show);
+</script>
+
+<style>
+  :global(.page) {
+    padding-top: var(--space-section);
+  }
+
+  .intro {
+    color: var(--color-text-muted);
+  }
+
+  section {
+    padding-block: var(--space-xl);
+    border-bottom: var(--border-width) solid var(--color-border);
+  }
+
+  section h2 {
+    margin-bottom: var(--space-md);
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    color: var(--color-text);
+  }
+
+  .value {
+    font-size: var(--text-xs);
+    color: var(--color-text-subtle);
+  }
+
+  .swatches {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(10rem, 1fr));
+    gap: var(--space-md);
+  }
+
+  .swatch figcaption {
+    display: grid;
+    gap: var(--space-3xs);
+    margin-top: var(--space-2xs);
+  }
+
+  .chip {
+    height: 4rem;
+    border-radius: var(--radius-md);
+    border: var(--border-width) solid var(--color-border);
+  }
+
+  .chip--radius {
+    background: var(--color-surface-raised);
+  }
+
+  .stack {
+    display: grid;
+    gap: var(--space-sm);
+  }
+
+  .type-row {
+    display: grid;
+    gap: var(--space-3xs);
+    overflow-wrap: anywhere;
+  }
+
+  .type-row p {
+    color: var(--color-text-strong);
+  }
+
+  .space-row {
+    display: grid;
+    grid-template-columns: 8rem auto 1fr;
+    align-items: center;
+    gap: var(--space-sm);
+  }
+
+  .bar {
+    height: var(--space-sm);
+    background: var(--color-accent);
+    border-radius: var(--radius-sm);
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-xs);
+  }
+
+  .card-demo {
+    max-width: 28rem;
+  }
+
+  .experience {
+    list-style: none;
+    padding: 0;
+  }
+</style>

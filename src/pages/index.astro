@@ -1,0 +1,78 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/ui/Container.astro";
+import Button from "../components/ui/Button.astro";
+import SectionHeading from "../components/ui/SectionHeading.astro";
+import WorkGrid from "../components/patterns/WorkGrid.astro";
+import ExperienceRow from "../components/patterns/ExperienceRow.astro";
+
+const experience = [
+  { role: "Product Designer", company: "Microsoft", years: "2023–Present" },
+  { role: "Product Designer", company: "Nuance Communications", years: "2020–2023" },
+  { role: "UX/UI Designer", company: "Evolving Web", years: "2019–2020" },
+];
+---
+
+<BaseLayout>
+  <section class="hero">
+    <Container>
+      <h1 class="display">Mike Faudel</h1>
+      <p class="tagline">Making complex AI feel effortless.</p>
+      <div class="actions">
+        <Button href="/work">See my work</Button>
+        <Button href="mailto:michaelfaudel@gmail.com" variant="secondary">Get in touch</Button>
+      </div>
+    </Container>
+  </section>
+
+  <section class="section">
+    <Container>
+      <SectionHeading eyebrow="Selected work">Featured case studies</SectionHeading>
+      <WorkGrid featuredOnly />
+    </Container>
+  </section>
+
+  <section class="section">
+    <Container>
+      <SectionHeading eyebrow="Experience">Where I've worked</SectionHeading>
+      <ul class="experience">
+        {experience.map((item) => <ExperienceRow {...item} />)}
+      </ul>
+    </Container>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-block: var(--space-section) var(--space-3xl);
+  }
+
+  .display {
+    font-size: var(--text-display);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .tagline {
+    margin-top: var(--space-md);
+    font-size: var(--text-xl);
+    color: var(--color-text-muted);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-top: var(--space-xl);
+  }
+
+  .section {
+    padding-block: var(--space-3xl);
+  }
+
+  .experience {
+    list-style: none;
+    padding: 0;
+    border-top: var(--border-width) solid var(--color-border);
+  }
+</style>

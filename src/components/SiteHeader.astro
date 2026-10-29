@@ -1,0 +1,82 @@
+---
+import Container from "./ui/Container.astro";
+
+const links = [
+  { href: "/work", label: "Work" },
+  { href: "/about", label: "About" },
+  { href: "/consulting", label: "Services" },
+  { href: "mailto:michaelfaudel@gmail.com", label: "Contact" },
+];
+
+const path = Astro.url.pathname;
+const isCurrent = (href: string) => href !== "/" && path.startsWith(href);
+---
+
+<header class="site-header">
+  <Container class="inner">
+    <a href="/" class="name">Mike Faudel</a>
+    <nav aria-label="Main">
+      <ul>
+        {
+          links.map(({ href, label }) => (
+            <li>
+              <a href={href} aria-current={isCurrent(href) ? "page" : undefined}>
+                {label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </Container>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    background: color-mix(in srgb, var(--color-bg) 80%, transparent);
+    backdrop-filter: blur(12px);
+    border-bottom: var(--border-width) solid var(--color-border);
+  }
+
+  .site-header :global(.inner) {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-sm);
+    min-height: 4rem;
+  }
+
+  .name {
+    font-weight: var(--weight-medium);
+    color: var(--color-text-strong);
+    text-decoration: none;
+  }
+
+  ul {
+    display: flex;
+    gap: var(--space-md);
+    list-style: none;
+    padding: 0;
+  }
+
+  nav a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    font-size: var(--text-sm);
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+
+  nav a:hover,
+  nav a[aria-current="page"] {
+    color: var(--color-text-strong);
+  }
+
+  @media (width < 30rem) {
+    ul {
+      gap: var(--space-sm);
+    }
+  }
+</style>

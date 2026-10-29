@@ -1,0 +1,19 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Container from "../../components/ui/Container.astro";
+import SectionHeading from "../../components/ui/SectionHeading.astro";
+import WorkGrid from "../../components/patterns/WorkGrid.astro";
+---
+
+<BaseLayout title="Work">
+  <Container class="page">
+    <SectionHeading as="h1" eyebrow="Work">Case studies</SectionHeading>
+    <WorkGrid />
+  </Container>
+</BaseLayout>
+
+<style>
+  :global(.page) {
+    padding-top: var(--space-section);
+  }
+</style>

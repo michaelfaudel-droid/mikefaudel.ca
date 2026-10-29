@@ -1,0 +1,83 @@
+---
+import Tag from "../ui/Tag.astro";
+
+interface Props {
+  href: string;
+  title: string;
+  summary: string;
+  company: string;
+  tags?: string[];
+  tint?: "blue" | "purple" | "green" | "brown" | "red";
+}
+
+const { href, title, summary, company, tags = [], tint = "blue" } = Astro.props;
+---
+
+<a href={href} class="card" style={`--card-tint: var(--tint-${tint})`}>
+  <div class="media" aria-hidden="true">
+    <slot name="media" />
+  </div>
+  <div class="body">
+    <p class="company">{company}</p>
+    <h3>{title}</h3>
+    <p class="summary">{summary}</p>
+    {
+      tags.length > 0 && (
+        <div class="tags">
+          {tags.map((tag) => (
+            <Tag>{tag}</Tag>
+          ))}
+        </div>
+      )
+    }
+  </div>
+</a>
+
+<style>
+  .card {
+    display: grid;
+    gap: var(--space-md);
+    padding: var(--space-sm);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+    border: var(--border-width) solid var(--color-border);
+    text-decoration: none;
+    transition:
+      transform var(--duration-base) var(--ease-out),
+      border-color var(--duration-base) var(--ease-out);
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-text-subtle);
+  }
+
+  .media {
+    aspect-ratio: 16 / 10;
+    border-radius: var(--radius-md);
+    background: var(--card-tint);
+    overflow: hidden;
+  }
+
+  .body {
+    display: grid;
+    gap: var(--space-2xs);
+    padding: 0 var(--space-2xs) var(--space-2xs);
+  }
+
+  .company {
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+  }
+
+  .summary {
+    color: var(--color-text-muted);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+    margin-top: var(--space-2xs);
+  }
+</style>

@@ -1,0 +1,73 @@
+{
+  "extends": [
+    "stylelint-config-standard"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "**/*.astro"
+      ],
+      "customSyntax": "postcss-html"
+    },
+    {
+      "files": [
+        "src/styles/tokens.css"
+      ],
+      "rules": {
+        "color-no-hex": null,
+        "color-named": null,
+        "function-disallowed-list": null
+      }
+    }
+  ],
+  "rules": {
+    "color-no-hex": true,
+    "color-named": "never",
+    "function-disallowed-list": [
+      "rgb",
+      "rgba",
+      "hsl",
+      "hsla"
+    ],
+    "declaration-property-value-disallowed-list": {
+      "/^(margin|padding|gap|row-gap|column-gap)/": [
+        "/\\d+px/"
+      ],
+      "font-size": [
+        "/\\d+(px|rem|em)/"
+      ],
+      "font-family": [
+        "/^(?!var\\().*/"
+      ]
+    },
+    "selector-class-pattern": null,
+    "custom-property-pattern": null,
+    "declaration-block-single-line-max-declarations": null,
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": [
+          "global"
+        ]
+      }
+    ],
+    "import-notation": "string",
+    "custom-property-empty-line-before": null,
+    "value-keyword-case": [
+      "lower",
+      {
+        "ignoreProperties": [
+          "/^--font-/"
+        ]
+      }
+    ],
+    "property-no-vendor-prefix": [
+      true,
+      {
+        "ignoreProperties": [
+          "font-smoothing"
+        ]
+      }
+    ]
+  }
+}

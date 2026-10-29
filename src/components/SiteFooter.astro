@@ -1,0 +1,47 @@
+---
+import Container from "./ui/Container.astro";
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <Container class="inner">
+    <p>© {year} Mike Faudel</p>
+    <ul>
+      <li><a href="mailto:michaelfaudel@gmail.com">Email</a></li>
+      <li><a href="https://www.linkedin.com/in/mikefaudel/" rel="me">LinkedIn</a></li>
+    </ul>
+  </Container>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--space-section);
+    padding-block: var(--space-xl);
+    border-top: var(--border-width) solid var(--color-border);
+    color: var(--color-text-subtle);
+    font-size: var(--text-sm);
+  }
+
+  .site-footer :global(.inner) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: var(--space-sm);
+  }
+
+  ul {
+    display: flex;
+    gap: var(--space-md);
+    list-style: none;
+    padding: 0;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--color-text-strong);
+  }
+</style>
