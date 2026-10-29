@@ -36,6 +36,7 @@
 
   /* ---------- Primitives: type ---------- */
   --font-sans: "Hanken Grotesk Variable", "Hanken Grotesk", system-ui, sans-serif;
+  --font-display: "Lexend Deca Variable", "Lexend Deca", var(--font-sans);
   --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
 
   /* ---------- Semantic: colour (dark theme is the default) ---------- */

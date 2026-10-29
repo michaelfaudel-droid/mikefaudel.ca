@@ -3,14 +3,82 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Container from "../components/ui/Container.astro";
 import Button from "../components/ui/Button.astro";
 import SectionHeading from "../components/ui/SectionHeading.astro";
+
+const services = [
+  {
+    name: "AI Product UX Audit",
+    description: "Review of your AI product or workflow.",
+    deliverable: "Annotated Figma / PDF with usability issues, opportunities, and recommendations.",
+    price: "$750",
+    term: "1 week",
+  },
+  {
+    name: "Design System Audit (AI Tools)",
+    description:
+      "Analysis of your design system for consistency, scalability, and AI-specific UX patterns.",
+    deliverable: "Gap analysis + roadmap recommendations.",
+    price: "$2,000+",
+    term: "2–3 weeks",
+  },
+  {
+    name: "Fractional Design Partner",
+    description:
+      "A few hours per week of senior AI design thinking alongside your team. Async, flexible, no long-term commitment.",
+    price: "$1,000",
+    term: "per month",
+  },
+  {
+    name: "Founder Advisory Call",
+    description:
+      "1:1 call to troubleshoot product challenges, explore AI integration opportunities, or refine UX strategy.",
+    price: "$250",
+    term: "per hour",
+  },
+];
 ---
 
-<BaseLayout title="Services">
-  <Container width="prose" class="page">
-    <SectionHeading as="h1" eyebrow="Services">Design consulting</SectionHeading>
-    <div class="prose">
-      <p>TODO: paste the Services copy from Framer.</p>
-    </div>
+<BaseLayout
+  title="Services"
+  description="AI product design consulting for founders and product teams shipping AI products."
+>
+  <Container class="page">
+    <SectionHeading as="h1" eyebrow="Services">
+      AI Product Design Consulting
+    </SectionHeading>
+    <p class="lead">
+      For founders and product teams shipping AI products who need a designer who actually
+      understands how AI works, not just how to make it look good.
+    </p>
+
+    <section class="why">
+      <h2>Why work with me</h2>
+      <p>
+        6 years designing conversational AI products. Currently designing how enterprise teams
+        configure, deploy, and work with AI agents at Microsoft. I've seen what breaks at scale, and
+        what actually gets adopted.
+      </p>
+    </section>
+
+    <section>
+      <h2 class="visually-hidden">Services</h2>
+      <ul class="services">
+        {services.map(({ name, description, deliverable, price, term }) => (
+          <li class="service">
+            <h3>{name}</h3>
+            <p class="description">{description}</p>
+            {deliverable && (
+              <p class="deliverable">
+                <strong>Deliverable:</strong> {deliverable}
+              </p>
+            )}
+            <p class="price">
+              {price} <span>{term}</span>
+            </p>
+          </li>
+        ))}
+      </ul>
+    </section>
+
     <div class="cta">
       <Button href="mailto:michaelfaudel@gmail.com">Start a conversation</Button>
     </div>
@@ -22,7 +90,68 @@ import SectionHeading from "../components/ui/SectionHeading.astro";
     padding-top: var(--space-section);
   }
 
+  .lead {
+    max-width: var(--width-prose);
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+  }
+
+  .why {
+    max-width: var(--width-prose);
+    margin-block: var(--space-2xl);
+  }
+
+  .why h2 {
+    margin-bottom: var(--space-sm);
+  }
+
+  .why p {
+    color: var(--color-text-muted);
+  }
+
+  .services {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+    gap: var(--space-md);
+    list-style: none;
+    padding: 0;
+  }
+
+  .service {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding: var(--space-lg);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface);
+  }
+
+  .description,
+  .deliverable {
+    color: var(--color-text-muted);
+  }
+
+  .deliverable strong {
+    color: var(--color-text);
+    font-weight: var(--weight-medium);
+  }
+
+  .price {
+    margin-top: auto;
+    padding-top: var(--space-sm);
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    color: var(--color-text-strong);
+  }
+
+  .price span {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    color: var(--color-text-subtle);
+  }
+
   .cta {
-    margin-top: var(--space-xl);
+    margin-top: var(--space-2xl);
   }
 </style>

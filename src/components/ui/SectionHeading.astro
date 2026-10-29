@@ -9,7 +9,9 @@ const { eyebrow, as: Tag = "h2" } = Astro.props;
 
 <div class="section-heading">
   {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-  <Tag><slot /></Tag>
+  <Tag>
+    <slot />
+  </Tag>
 </div>
 
 <style>

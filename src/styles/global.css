@@ -1,6 +1,7 @@
 /* Base element styles. Uses semantic tokens only. */
 
 @import "@fontsource-variable/hanken-grotesk";
+@import "@fontsource-variable/lexend-deca";
 @import "./tokens.css";
 
 *,
@@ -34,6 +35,7 @@ h2,
 h3,
 h4 {
   color: var(--color-text-strong);
+  font-family: var(--font-display);
   font-weight: var(--weight-medium);
   line-height: var(--leading-snug);
   letter-spacing: var(--tracking-snug);
@@ -84,7 +86,6 @@ a {
 
 /* Long-form content (case study bodies) */
 .prose {
-  max-width: var(--width-prose);
   font-size: var(--text-md);
   line-height: var(--leading-relaxed);
   color: var(--color-text-muted);
@@ -94,8 +95,23 @@ a {
   margin-top: var(--space-sm);
 }
 
+/* Text keeps a readable line length; images, galleries and callouts use the full width. */
+.prose > :where(h2, h3, h4, p:not(:has(img)), ul, ol) {
+  max-width: var(--width-prose);
+}
+
+.prose img {
+  width: 100%;
+  border-radius: var(--radius-md);
+}
+
+.prose strong {
+  color: var(--color-text-strong);
+  font-weight: var(--weight-semibold);
+}
+
 .prose h2 {
-  margin-top: var(--space-xl);
+  margin-top: var(--space-2xl);
 }
 
 .prose h3 {

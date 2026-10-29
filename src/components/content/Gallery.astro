@@ -1,0 +1,16 @@
+---
+/* Lays out the Markdown images inside it side by side, wrapping on small screens. */
+---
+
+<div class="gallery">
+  <slot />
+</div>
+
+<style>
+  .gallery :global(p) {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+    gap: var(--space-sm);
+    align-items: start;
+  }
+</style>

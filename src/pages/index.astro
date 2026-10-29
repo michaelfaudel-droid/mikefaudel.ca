@@ -1,33 +1,39 @@
 ---
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Container from "../components/ui/Container.astro";
 import Button from "../components/ui/Button.astro";
 import SectionHeading from "../components/ui/SectionHeading.astro";
 import WorkGrid from "../components/patterns/WorkGrid.astro";
 import ExperienceRow from "../components/patterns/ExperienceRow.astro";
-
-const experience = [
-  { role: "Product Designer", company: "Microsoft", years: "2023–Present" },
-  { role: "Product Designer", company: "Nuance Communications", years: "2020–2023" },
-  { role: "UX/UI Designer", company: "Evolving Web", years: "2019–2020" },
-];
+import { experience } from "../data/experience";
+import mark from "../assets/brand/mark.png";
 ---
 
 <BaseLayout>
   <section class="hero">
-    <Container>
-      <h1 class="display">Mike Faudel</h1>
-      <p class="tagline">Making complex AI feel effortless.</p>
-      <div class="actions">
-        <Button href="/work">See my work</Button>
-        <Button href="mailto:michaelfaudel@gmail.com" variant="secondary">Get in touch</Button>
+    <Container class="hero-inner">
+      <div>
+        <h1 class="display">
+          Mike
+          <br />
+          Faudel
+        </h1>
+        <p class="tagline">Making complex AI feel effortless</p>
+        <div class="actions">
+          <Button href="/work">See my work</Button>
+          <Button href="mailto:michaelfaudel@gmail.com" variant="secondary">
+            Get in touch
+          </Button>
+        </div>
       </div>
+      <Image class="mark" src={mark} alt="" width={434} height={434} loading="eager" />
     </Container>
   </section>
 
   <section class="section">
     <Container>
-      <SectionHeading eyebrow="Selected work">Featured case studies</SectionHeading>
+      <SectionHeading eyebrow="Selected work">Case studies</SectionHeading>
       <WorkGrid featuredOnly />
     </Container>
   </section>
@@ -36,7 +42,15 @@ const experience = [
     <Container>
       <SectionHeading eyebrow="Experience">Where I've worked</SectionHeading>
       <ul class="experience">
-        {experience.map((item) => <ExperienceRow {...item} />)}
+        {experience.map(({ role, company, years, logo, summary }) => (
+          <ExperienceRow
+            role={role}
+            company={company}
+            years={years}
+            logo={logo}
+            description={summary}
+          />
+        ))}
       </ul>
     </Container>
   </section>
@@ -47,10 +61,18 @@ const experience = [
     padding-block: var(--space-section) var(--space-3xl);
   }
 
+  .hero :global(.hero-inner) {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: var(--space-xl);
+  }
+
   .display {
     font-size: var(--text-display);
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-tight);
+    text-transform: uppercase;
   }
 
   .tagline {
@@ -66,6 +88,10 @@ const experience = [
     margin-top: var(--space-xl);
   }
 
+  .hero :global(.mark) {
+    width: clamp(8rem, 25vw, 22rem);
+  }
+
   .section {
     padding-block: var(--space-3xl);
   }
@@ -74,5 +100,16 @@ const experience = [
     list-style: none;
     padding: 0;
     border-top: var(--border-width) solid var(--color-border);
+  }
+
+  @media (width < 40rem) {
+    .hero :global(.hero-inner) {
+      grid-template-columns: 1fr;
+    }
+
+    .hero :global(.mark) {
+      grid-row: 1;
+      width: 6rem;
+    }
   }
 </style>

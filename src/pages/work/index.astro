@@ -7,7 +7,13 @@ import WorkGrid from "../../components/patterns/WorkGrid.astro";
 
 <BaseLayout title="Work">
   <Container class="page">
-    <SectionHeading as="h1" eyebrow="Work">Case studies</SectionHeading>
+    <SectionHeading as="h1" eyebrow="Work">
+      Case studies
+    </SectionHeading>
+    <p class="lead">
+      UX/UI design at scale for enterprise SaaS platforms, with deep expertise in generative AI
+      software. Currently a product designer at Microsoft.
+    </p>
     <WorkGrid />
   </Container>
 </BaseLayout>
@@ -15,5 +21,12 @@ import WorkGrid from "../../components/patterns/WorkGrid.astro";
 <style>
   :global(.page) {
     padding-top: var(--space-section);
+  }
+
+  .lead {
+    max-width: var(--width-prose);
+    margin-bottom: var(--space-xl);
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
   }
 </style>

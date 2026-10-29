@@ -2,7 +2,6 @@
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Container from "../../components/ui/Container.astro";
-import Tag from "../../components/ui/Tag.astro";
 
 export async function getStaticPaths() {
   const entries = await getCollection("work");
@@ -11,20 +10,30 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const { title, summary, company, role, year, tags, tint } = entry.data;
+const { title, summary, company, role, duration, tint } = entry.data;
 ---
 
 <BaseLayout title={title} description={summary}>
   <article>
     <header class="header" style={`--header-tint: var(--tint-${tint})`}>
-      <Container>
-        <p class="meta">{company} · {role} · {year}</p>
+      <Container class="case-width">
+        <p class="meta">{company}</p>
         <h1>{title}</h1>
-        <p class="summary">{summary}</p>
-        <div class="tags">{tags.map((tag) => <Tag>{tag}</Tag>)}</div>
+        <dl class="details">
+          <div>
+            <dt>Role</dt>
+            <dd>{role}</dd>
+          </div>
+          {duration !== "TODO" && (
+            <div>
+              <dt>Duration</dt>
+              <dd>{duration}</dd>
+            </div>
+          )}
+        </dl>
       </Container>
     </header>
-    <Container width="prose">
+    <Container class="case-width">
       <div class="prose">
         <Content />
       </div>
@@ -33,10 +42,18 @@ const { title, summary, company, role, year, tags, tint } = entry.data;
 </BaseLayout>
 
 <style>
+  :global(.case-width) {
+    max-width: calc(60rem + 2 * var(--gutter));
+  }
+
   .header {
     padding-block: var(--space-section) var(--space-2xl);
-    margin-bottom: var(--space-2xl);
+    margin-bottom: var(--space-xl);
     background: linear-gradient(to bottom, var(--header-tint), var(--color-bg));
+  }
+
+  h1 {
+    max-width: var(--width-prose);
   }
 
   .meta {
@@ -45,17 +62,22 @@ const { title, summary, company, role, year, tags, tint } = entry.data;
     margin-bottom: var(--space-sm);
   }
 
-  .summary {
-    margin-top: var(--space-md);
-    max-width: var(--width-prose);
-    font-size: var(--text-lg);
-    color: var(--color-text-muted);
-  }
-
-  .tags {
+  .details {
     display: flex;
     flex-wrap: wrap;
-    gap: var(--space-2xs);
-    margin-top: var(--space-md);
+    gap: var(--space-xl);
+    margin-top: var(--space-lg);
+  }
+
+  dt {
+    font-size: var(--text-xs);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-text-subtle);
+  }
+
+  dd {
+    margin-top: var(--space-3xs);
+    color: var(--color-text);
   }
 </style>

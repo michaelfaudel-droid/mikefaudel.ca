@@ -11,6 +11,9 @@ import Tag from "../components/ui/Tag.astro";
 import SectionHeading from "../components/ui/SectionHeading.astro";
 import CaseStudyCard from "../components/patterns/CaseStudyCard.astro";
 import ExperienceRow from "../components/patterns/ExperienceRow.astro";
+import Stats from "../components/content/Stats.astro";
+import Facts from "../components/content/Facts.astro";
+import Quote from "../components/content/Quote.astro";
 
 const colors = [
   "--color-bg",
@@ -24,6 +27,7 @@ const colors = [
   "--color-accent",
 ];
 const tints = ["--tint-blue", "--tint-purple", "--tint-green", "--tint-brown", "--tint-red"];
+const fonts = ["--font-display", "--font-sans", "--font-mono"];
 const textSizes = [
   "--text-display",
   "--text-2xl",
@@ -50,7 +54,9 @@ const radii = ["--radius-sm", "--radius-md", "--radius-lg", "--radius-pill"];
 
 <BaseLayout title="Styleguide" noindex>
   <Container class="page">
-    <SectionHeading as="h1" eyebrow="Design system">Styleguide</SectionHeading>
+    <SectionHeading as="h1" eyebrow="Design system">
+      Styleguide
+    </SectionHeading>
     <p class="intro">
       Every token lives in <code>src/styles/tokens.css</code>. Components use semantic tokens only.
     </p>
@@ -58,64 +64,70 @@ const radii = ["--radius-sm", "--radius-md", "--radius-lg", "--radius-pill"];
     <section>
       <h2>Colour</h2>
       <div class="swatches">
-        {
-          [...colors, ...tints].map((name) => (
-            <figure class="swatch">
-              <div class="chip" style={`background: var(${name})`} />
-              <figcaption>
-                <code>{name}</code>
-                <span class="value" data-token={name} />
-              </figcaption>
-            </figure>
-          ))
-        }
+        {[...colors, ...tints].map((name) => (
+          <figure class="swatch">
+            <div class="chip" style={`background: var(${name})`} />
+            <figcaption>
+              <code>{name}</code>
+              <span class="value" data-token={name} />
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+
+    <section>
+      <h2>Typefaces</h2>
+      <div class="stack">
+        {fonts.map((name) => (
+          <div class="type-row">
+            <code>{name}</code>
+            <p style={`font-family: var(${name}); font-size: var(--text-xl)`}>
+              Making complex AI feel effortless
+            </p>
+          </div>
+        ))}
       </div>
     </section>
 
     <section>
       <h2>Type scale</h2>
       <div class="stack">
-        {
-          textSizes.map((name) => (
-            <div class="type-row">
-              <code>{name}</code>
-              <p style={`font-size: var(${name}); line-height: var(--leading-snug)`}>
-                Making complex AI feel effortless
-              </p>
-            </div>
-          ))
-        }
+        {textSizes.map((name) => (
+          <div class="type-row">
+            <code>{name}</code>
+            <p style={`font-size: var(${name}); line-height: var(--leading-snug)`}>
+              Making complex AI feel effortless
+            </p>
+          </div>
+        ))}
       </div>
     </section>
 
     <section>
       <h2>Spacing</h2>
       <div class="stack">
-        {
-          spaces.map((name) => (
-            <div class="space-row">
-              <code>{name}</code>
-              <div class="bar" style={`width: var(${name})`} />
-              <span class="value" data-token={name} />
-            </div>
-          ))
-        }
+        {spaces.map((name) => (
+          <div class="space-row">
+            <code>{name}</code>
+            <div class="bar" style={`width: var(${name})`} />
+            <span class="value" data-token={name} />
+          </div>
+        ))}
       </div>
     </section>
 
     <section>
       <h2>Radius</h2>
       <div class="swatches">
-        {
-          radii.map((name) => (
-            <figure class="swatch">
-              <div class="chip chip--radius" style={`border-radius: var(${name})`} />
-              <figcaption>
-                <code>{name}</code>
-              </figcaption>
-            </figure>
-          ))
-        }
+        {radii.map((name) => (
+          <figure class="swatch">
+            <div class="chip chip--radius" style={`border-radius: var(${name})`} />
+            <figcaption>
+              <code>{name}</code>
+            </figcaption>
+          </figure>
+        ))}
       </div>
     </section>
 
@@ -123,9 +135,15 @@ const radii = ["--radius-sm", "--radius-md", "--radius-lg", "--radius-pill"];
       <h2>Buttons</h2>
       <div class="row">
         <Button href="#">Primary</Button>
-        <Button href="#" variant="secondary">Secondary</Button>
-        <Button href="#" variant="ghost">Ghost</Button>
-        <Button href="#" size="sm">Small</Button>
+        <Button href="#" variant="secondary">
+          Secondary
+        </Button>
+        <Button href="#" variant="ghost">
+          Ghost
+        </Button>
+        <Button href="#" size="sm">
+          Small
+        </Button>
       </div>
     </section>
 
@@ -151,16 +169,44 @@ const radii = ["--radius-sm", "--radius-md", "--radius-lg", "--radius-pill"];
           title="Example case study title"
           summary="A one-sentence summary of the problem and the outcome."
           company="Company"
-          tags={["Tag one", "Tag two"]}
+          stats={[
+            { value: "75%", label: "Stat label" },
+            { value: "#2", label: "Another stat" },
+          ]}
           tint="purple"
         />
       </div>
     </section>
 
     <section>
+      <h2>Case study blocks (for MDX)</h2>
+      <Stats
+        items={[
+          { value: "230k+", label: "Stats: big numbers with a label" },
+          { value: "90%", label: "Second stat" },
+        ]}
+      />
+      <Facts
+        title="Facts"
+        items={[
+          { label: "Headquarters", value: "City, Region" },
+          { label: "Founded", value: "2015" },
+        ]}
+      />
+      <Quote by="Person, Role" context="Where it was said">
+        A quote from a stakeholder.
+      </Quote>
+    </section>
+
+    <section>
       <h2>Experience row</h2>
       <ul class="experience">
-        <ExperienceRow role="Product Designer" company="Company" years="2020–2023" />
+        <ExperienceRow
+          role="Product Designer"
+          company="Company"
+          years="2020–2023"
+          description="One or two sentences about the role."
+        />
       </ul>
     </section>
   </Container>

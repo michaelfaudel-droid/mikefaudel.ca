@@ -13,18 +13,18 @@ const entries = (await getCollection("work", ({ data }) => !featuredOnly || data
 ---
 
 <div class="grid">
-  {
-    entries.map(({ id, data }) => (
-      <CaseStudyCard
-        href={`/work/${id}`}
-        title={data.title}
-        summary={data.summary}
-        company={data.company}
-        tags={data.tags}
-        tint={data.tint}
-      />
-    ))
-  }
+  {entries.map(({ id, data }) => (
+    <CaseStudyCard
+      href={`/work/${id}`}
+      title={data.cardTitle}
+      summary={data.summary}
+      company={data.company}
+      cover={data.cover}
+      coverAlt={data.coverAlt}
+      stats={data.stats}
+      tint={data.tint}
+    />
+  ))}
 </div>
 
 <style>
