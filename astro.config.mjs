@@ -5,5 +5,7 @@ import mdx from "@astrojs/mdx";
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.mikefaudel.ca",
+  trailingSlash: "never",
+  build: { format: "file" },
   integrations: [mdx()],
 });

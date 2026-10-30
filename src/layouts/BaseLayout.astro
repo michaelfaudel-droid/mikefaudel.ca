@@ -17,7 +17,8 @@ const {
 } = Astro.props;
 
 const fullTitle = title ? `${title} · Mike Faudel` : "Mike Faudel — Product Designer";
-const canonical = new URL(Astro.url.pathname, Astro.site);
+const pathname = Astro.url.pathname.replace(/(index)?\.html$/, "") || "/";
+const canonical = new URL(pathname, Astro.site);
 ---
 
 <!doctype html>
