@@ -34,13 +34,25 @@
   --tint-brown: #291d10;
   --tint-red: #1e1515;
 
+  /* Ambient background: circle colours, canvas fill, and its blur and grain */
+  --ambient-1: #123045;
+  --ambient-2: #2a3f4d;
+  --ambient-3: #112f38;
+  --ambient-4: #000;
+  --ambient-5: #0d0229;
+  --ambient-6: #143347;
+  --ambient-base: #141414;
+  --ambient-height: 30rem;
+  --ambient-blur: 57px;
+  --grain-opacity: 0.075;
+
   /* ---------- Primitives: type ---------- */
   --font-sans: "Hanken Grotesk Variable", "Hanken Grotesk", system-ui, sans-serif;
   --font-display: "Lexend Deca Variable", "Lexend Deca", var(--font-sans);
   --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
 
   /* ---------- Semantic: colour (dark theme is the default) ---------- */
-  --color-bg: var(--gray-950);
+  --color-bg: var(--black);
   --color-surface: var(--gray-900);
   --color-surface-raised: var(--gray-800);
   --color-border: color-mix(in srgb, var(--white) 12%, transparent);

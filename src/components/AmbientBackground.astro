@@ -1,0 +1,139 @@
+---
+/* Fixed page backdrop: drifting circles under a heavy blur, with a grain tile on top. */
+interface Props {
+  animated?: boolean;
+}
+
+const { animated = true } = Astro.props;
+---
+
+<div class="ambient" aria-hidden="true">
+  {animated && <canvas class="circles" data-ambient-canvas />}
+  <div class="grain"></div>
+</div>
+
+<script>
+  const COUNT = 23;
+  const MIN_RADIUS = 60;
+  const MAX_RADIUS = 240;
+  const MAX_SPEED = 72; // px per second
+  const FRAME_MS = 1000 / 30;
+
+  const random = (min: number, max: number) => min + Math.random() * (max - min);
+
+  function start(canvas: HTMLCanvasElement) {
+    const context = canvas.getContext("2d");
+    if (!context) return;
+
+    const styles = getComputedStyle(document.documentElement);
+    const palette = [1, 2, 3, 4, 5, 6].map((n) => styles.getPropertyValue(`--ambient-${n}`).trim());
+    const base = styles.getPropertyValue("--ambient-base").trim();
+
+    const resize = () => {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    };
+    resize();
+
+    const circles = Array.from({ length: COUNT }, (_, index) => {
+      const angle = random(0, Math.PI * 2);
+      const speed = random(0.4, 1) * MAX_SPEED;
+      return {
+        x: random(0, canvas.width),
+        y: random(0, canvas.height),
+        radius: random(MIN_RADIUS, MAX_RADIUS),
+        color: palette[index % palette.length],
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed,
+      };
+    });
+
+    const draw = () => {
+      context.fillStyle = base;
+      context.fillRect(0, 0, canvas.width, canvas.height);
+      for (const { x, y, radius, color } of circles) {
+        context.fillStyle = color;
+        context.beginPath();
+        context.arc(x, y, radius, 0, Math.PI * 2);
+        context.fill();
+      }
+    };
+
+    const step = (seconds: number) => {
+      for (const circle of circles) {
+        // Nudge the heading so each circle wanders instead of travelling straight.
+        const turn = random(-0.6, 0.6) * seconds;
+        const { vx, vy } = circle;
+        circle.vx = vx * Math.cos(turn) - vy * Math.sin(turn);
+        circle.vy = vx * Math.sin(turn) + vy * Math.cos(turn);
+        circle.x += circle.vx * seconds;
+        circle.y += circle.vy * seconds;
+
+        const margin = circle.radius;
+        if (circle.x < -margin) circle.x = canvas.width + margin;
+        if (circle.x > canvas.width + margin) circle.x = -margin;
+        if (circle.y < -margin) circle.y = canvas.height + margin;
+        if (circle.y > canvas.height + margin) circle.y = -margin;
+      }
+    };
+
+    window.addEventListener("resize", resize);
+    draw();
+
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let last = performance.now();
+    let frame = 0;
+    const tick = (now: number) => {
+      frame = requestAnimationFrame(tick);
+      const elapsed = now - last;
+      if (elapsed < FRAME_MS) return;
+      last = now;
+      step(Math.min(elapsed, 100) / 1000);
+      draw();
+    };
+    frame = requestAnimationFrame(tick);
+
+    document.addEventListener(
+      "astro:before-swap",
+      () => {
+        cancelAnimationFrame(frame);
+        window.removeEventListener("resize", resize);
+      },
+      { once: true },
+    );
+  }
+
+  // Runs on first load and after every client-side page change.
+  document.addEventListener("astro:page-load", () => {
+    const canvas = document.querySelector<HTMLCanvasElement>("[data-ambient-canvas]");
+    if (canvas) start(canvas);
+  });
+</script>
+
+<style>
+  .ambient {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .circles {
+    position: absolute;
+    top: calc(50% - var(--ambient-height) / 2);
+    left: 7.6667%;
+    width: 85%;
+    height: var(--ambient-height);
+    filter: blur(var(--ambient-blur));
+  }
+
+  .grain {
+    position: absolute;
+    inset: 0;
+    background-image: url("/grain.png");
+    background-size: 128px;
+    opacity: var(--grain-opacity);
+  }
+</style>

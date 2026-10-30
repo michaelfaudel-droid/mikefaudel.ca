@@ -27,6 +27,15 @@ const colors = [
   "--color-accent",
 ];
 const tints = ["--tint-blue", "--tint-purple", "--tint-green", "--tint-brown", "--tint-red"];
+const ambient = [
+  "--ambient-1",
+  "--ambient-2",
+  "--ambient-3",
+  "--ambient-4",
+  "--ambient-5",
+  "--ambient-6",
+  "--ambient-base",
+];
 const fonts = ["--font-display", "--font-sans", "--font-mono"];
 const textSizes = [
   "--text-display",
@@ -64,7 +73,7 @@ const radii = ["--radius-sm", "--radius-md", "--radius-lg", "--radius-pill"];
     <section>
       <h2>Colour</h2>
       <div class="swatches">
-        {[...colors, ...tints].map((name) => (
+        {[...colors, ...tints, ...ambient].map((name) => (
           <figure class="swatch">
             <div class="chip" style={`background: var(${name})`} />
             <figcaption>

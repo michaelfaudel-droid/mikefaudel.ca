@@ -3,17 +3,21 @@ import "../styles/global.css";
 import { ClientRouter } from "astro:transitions";
 import SiteHeader from "../components/SiteHeader.astro";
 import SiteFooter from "../components/SiteFooter.astro";
+import AmbientBackground from "../components/AmbientBackground.astro";
 
 interface Props {
   title?: string;
   description?: string;
   noindex?: boolean;
+  /** "animated" adds the drifting circles and grain, "grain" adds the grain only. */
+  ambient?: "animated" | "grain" | "none";
 }
 
 const {
   title,
   description = "Mike Faudel — Product Designer making complex AI feel effortless.",
   noindex = false,
+  ambient = "none",
 } = Astro.props;
 
 const fullTitle = title ? `${title} · Mike Faudel` : "Mike Faudel — Product Designer";
@@ -37,6 +41,7 @@ const canonical = new URL(pathname, Astro.site);
     <ClientRouter />
   </head>
   <body>
+    {ambient !== "none" && <AmbientBackground animated={ambient === "animated"} />}
     <a class="skip-link" href="#main">
       Skip to content
     </a>

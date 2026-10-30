@@ -10,13 +10,23 @@ import { experience } from "../data/experience";
 import mark from "../assets/brand/mark.png";
 ---
 
-<BaseLayout>
+<BaseLayout ambient="animated">
   <section class="hero">
-    <Container class="hero-inner">
+    <Container>
       <div>
         <h1 class="display">
-          Mike
-          <br />
+          <span class="first-name">
+            Mike
+            <Image
+              class="mark"
+              src={mark}
+              alt=""
+              width={228}
+              height={228}
+              format="png"
+              loading="eager"
+            />
+          </span>
           Faudel
         </h1>
         <p class="tagline">Making complex AI feel effortless</p>
@@ -27,7 +37,6 @@ import mark from "../assets/brand/mark.png";
           </Button>
         </div>
       </div>
-      <Image class="mark" src={mark} alt="" width={434} height={434} loading="eager" />
     </Container>
   </section>
 
@@ -61,18 +70,24 @@ import mark from "../assets/brand/mark.png";
     padding-block: var(--space-section) var(--space-3xl);
   }
 
-  .hero :global(.hero-inner) {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: var(--space-xl);
-  }
-
   .display {
     font-size: var(--text-display);
     line-height: var(--leading-tight);
     letter-spacing: var(--tracking-tight);
+    font-weight: var(--weight-regular);
     text-transform: uppercase;
+  }
+
+  .first-name {
+    display: flex;
+    align-items: center;
+    gap: 0.15em;
+  }
+
+  /* Sized in em so the mark always matches the height of the name. */
+  .hero :global(.mark) {
+    width: 0.87em;
+    height: 0.87em;
   }
 
   .tagline {
@@ -88,10 +103,6 @@ import mark from "../assets/brand/mark.png";
     margin-top: var(--space-xl);
   }
 
-  .hero :global(.mark) {
-    width: clamp(8rem, 25vw, 22rem);
-  }
-
   .section {
     padding-block: var(--space-3xl);
   }
@@ -100,16 +111,5 @@ import mark from "../assets/brand/mark.png";
     list-style: none;
     padding: 0;
     border-top: var(--border-width) solid var(--color-border);
-  }
-
-  @media (width < 40rem) {
-    .hero :global(.hero-inner) {
-      grid-template-columns: 1fr;
-    }
-
-    .hero :global(.mark) {
-      grid-row: 1;
-      width: 6rem;
-    }
   }
 </style>
