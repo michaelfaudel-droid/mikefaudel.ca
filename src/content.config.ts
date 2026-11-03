@@ -16,6 +16,7 @@ const work = defineCollection({
       coverAlt: z.string(),
       stats: z.array(z.object({ value: z.string(), label: z.string() })).default([]),
       tint: z.enum(["blue", "purple", "green", "brown", "red"]).default("blue"),
+      glow: z.enum(["green", "orange", "blue"]).default("blue"),
       order: z.number(),
       featured: z.boolean().default(true),
     }),

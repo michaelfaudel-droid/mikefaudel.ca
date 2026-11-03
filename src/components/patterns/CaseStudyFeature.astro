@@ -1,0 +1,165 @@
+---
+/* Wide two-column case-study card used in the home page stack: text on the left, cover and stats on the right. */
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  href: string;
+  title: string;
+  summary: string;
+  cover?: ImageMetadata;
+  coverAlt?: string;
+  stats?: { value: string; label: string }[];
+  glow?: "green" | "orange" | "blue";
+}
+
+const { href, title, summary, cover, coverAlt = "", stats = [], glow = "blue" } = Astro.props;
+---
+
+<a href={href} class="feature" style={`--feature-glow: var(--glow-${glow})`}>
+  <div class="text">
+    <h3>{title}</h3>
+    <p class="summary">{summary}</p>
+    <span class="cta">View case study</span>
+  </div>
+  <div class="media">
+    {cover && (
+      <Image
+        src={cover}
+        alt={coverAlt}
+        widths={[480, 860, 1280]}
+        sizes="(min-width: 48rem) 27rem, 100vw"
+      />
+    )}
+    {stats.length > 0 && (
+      <dl class="stats">
+        {stats.map(({ value, label }) => (
+          <div>
+            <dt>{label}</dt>
+            <dd>{value}</dd>
+          </div>
+        ))}
+      </dl>
+    )}
+  </div>
+</a>
+
+<style>
+  .feature {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-2xl);
+    min-height: 31.25rem;
+    padding: var(--space-2xl) var(--space-xl);
+    overflow: hidden;
+    border-radius: var(--radius-xl);
+    background: var(--color-surface-feature);
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  /* Soft coloured glow behind the right half of the card. */
+  .feature::before {
+    content: "";
+    position: absolute;
+    top: -3rem;
+    left: 42%;
+    width: 37rem;
+    aspect-ratio: 1;
+    border-radius: var(--radius-pill);
+    background: var(--feature-glow);
+    opacity: 0.15;
+    filter: blur(6.25rem);
+    pointer-events: none;
+  }
+
+  .text,
+  .media {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .text {
+    gap: var(--space-sm);
+  }
+
+  h3 {
+    font-family: var(--font-sans);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-regular);
+    line-height: var(--leading-snug);
+    color: var(--color-text);
+  }
+
+  .summary {
+    font-size: var(--text-md);
+    line-height: var(--leading-normal);
+    color: var(--color-text-muted);
+  }
+
+  .cta {
+    align-self: flex-start;
+    margin-top: auto;
+    padding: var(--space-xs) var(--space-md);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-pill);
+    color: var(--color-text-strong);
+    transition:
+      background-color var(--duration-base) var(--ease-out),
+      border-color var(--duration-base) var(--ease-out);
+  }
+
+  .feature:hover .cta {
+    border-color: var(--color-text-subtle);
+    background: var(--color-surface-raised);
+  }
+
+  .media :global(img) {
+    width: 100%;
+    aspect-ratio: 428 / 245;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-xl);
+    margin-top: var(--space-md);
+  }
+
+  .stats div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  dt {
+    font-size: var(--text-lg);
+    line-height: var(--leading-snug);
+    color: var(--color-text-muted);
+  }
+
+  dd {
+    font-size: var(--text-stat);
+    font-weight: var(--weight-medium);
+    line-height: var(--leading-snug);
+    color: var(--color-text-muted);
+  }
+
+  @media (width < 48rem) {
+    .feature {
+      grid-template-columns: 1fr;
+      gap: var(--space-lg);
+      min-height: 0;
+      padding: var(--space-lg) var(--space-md);
+      border-radius: var(--radius-lg);
+    }
+
+    .cta {
+      margin-top: var(--space-xs);
+    }
+  }
+</style>

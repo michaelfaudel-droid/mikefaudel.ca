@@ -1,0 +1,49 @@
+---
+/*
+ * Featured case studies as a vertical stack. On larger screens each card sticks
+ * a little lower than the one before, so they pile up as you scroll. Pure CSS
+ * (position: sticky), so scrolling stays native.
+ */
+import { getCollection } from "astro:content";
+import CaseStudyFeature from "./CaseStudyFeature.astro";
+
+const entries = (await getCollection("work", ({ data }) => data.featured)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+---
+
+<ol class="stack">
+  {entries.map(({ id, data }, index) => (
+    <li style={`--stack-index: ${index}`}>
+      <CaseStudyFeature
+        href={`/work/${id}`}
+        title={data.cardTitle}
+        summary={data.summary}
+        cover={data.cover}
+        coverAlt={data.coverAlt}
+        stats={data.stats}
+        glow={data.glow}
+      />
+    </li>
+  ))}
+</ol>
+
+<style>
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xl);
+    max-width: var(--width-feature);
+    margin-inline: auto;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Only stack when a whole card fits on screen; otherwise the next card would cover unread content. */
+  @media (width >= 48rem) and (height >= 40rem) {
+    .stack li {
+      position: sticky;
+      top: calc(var(--stack-top) + var(--stack-index) * var(--stack-step));
+    }
+  }
+</style>

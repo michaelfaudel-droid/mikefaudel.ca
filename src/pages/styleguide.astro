@@ -10,6 +10,7 @@ import Button from "../components/ui/Button.astro";
 import Tag from "../components/ui/Tag.astro";
 import SectionHeading from "../components/ui/SectionHeading.astro";
 import CaseStudyCard from "../components/patterns/CaseStudyCard.astro";
+import CaseStudyFeature from "../components/patterns/CaseStudyFeature.astro";
 import ExperienceRow from "../components/patterns/ExperienceRow.astro";
 import Stats from "../components/content/Stats.astro";
 import Facts from "../components/content/Facts.astro";
@@ -27,6 +28,7 @@ const colors = [
   "--color-accent",
 ];
 const tints = ["--tint-blue", "--tint-purple", "--tint-green", "--tint-brown", "--tint-red"];
+const feature = ["--color-surface-feature", "--glow-green", "--glow-orange", "--glow-blue"];
 const ambient = [
   "--ambient-1",
   "--ambient-2",
@@ -40,6 +42,7 @@ const fonts = ["--font-display", "--font-sans", "--font-mono"];
 const textSizes = [
   "--text-display",
   "--text-2xl",
+  "--text-stat",
   "--text-xl",
   "--text-lg",
   "--text-md",
@@ -58,7 +61,7 @@ const spaces = [
   "--space-2xl",
   "--space-3xl",
 ];
-const radii = ["--radius-sm", "--radius-md", "--radius-lg", "--radius-pill"];
+const radii = ["--radius-sm", "--radius-md", "--radius-lg", "--radius-xl", "--radius-pill"];
 ---
 
 <BaseLayout title="Styleguide" noindex>
@@ -73,7 +76,7 @@ const radii = ["--radius-sm", "--radius-md", "--radius-lg", "--radius-pill"];
     <section>
       <h2>Colour</h2>
       <div class="swatches">
-        {[...colors, ...tints, ...ambient].map((name) => (
+        {[...colors, ...tints, ...feature, ...ambient].map((name) => (
           <figure class="swatch">
             <div class="chip" style={`background: var(${name})`} />
             <figcaption>
@@ -185,6 +188,24 @@ const radii = ["--radius-sm", "--radius-md", "--radius-lg", "--radius-pill"];
           tint="purple"
         />
       </div>
+    </section>
+
+    <section>
+      <h2>Featured case study card</h2>
+      <p class="intro">
+        Used in the home page stack, where each card sticks a little lower than the last
+        (<code>--stack-top</code>, <code>--stack-step</code>).
+      </p>
+      <CaseStudyFeature
+        href="#"
+        title="Example case study title"
+        summary="A one- or two-sentence summary of the problem and the outcome."
+        stats={[
+          { value: "230k+", label: "Stat label" },
+          { value: "90%", label: "Another stat" },
+        ]}
+        glow="orange"
+      />
     </section>
 
     <section>
