@@ -115,6 +115,7 @@
   /* Stacking case-study cards: where the first card sticks, and how far each next one sits below it */
   --stack-top: 6.25rem;
   --stack-step: 1.875rem;
+  --stack-shrink: 0.05; /* each card behind the front one is this much smaller */
   --gutter: clamp(1rem, 0.5rem + 2.5vw, 2.5rem);
 
   /* ---------- Semantic: shape ---------- */

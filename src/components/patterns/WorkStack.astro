@@ -1,8 +1,9 @@
 ---
 /*
  * Featured case studies as a vertical stack. On larger screens each card sticks
- * a little lower than the one before, so they pile up as you scroll. Pure CSS
- * (position: sticky), so scrolling stays native.
+ * a little lower than the one before, so they pile up as you scroll. Stacking is
+ * pure CSS (position: sticky), so scrolling stays native; a small script shrinks
+ * the cards behind as the next one slides over them.
  */
 import { getCollection } from "astro:content";
 import CaseStudyFeature from "./CaseStudyFeature.astro";
@@ -12,7 +13,7 @@ const entries = (await getCollection("work", ({ data }) => data.featured)).sort(
 );
 ---
 
-<ol class="stack">
+<ol class="stack" data-work-stack>
   {entries.map(({ id, data }, index) => (
     <li style={`--stack-index: ${index}`}>
       <CaseStudyFeature
@@ -27,6 +28,65 @@ const entries = (await getCollection("work", ({ data }) => data.featured)).sort(
     </li>
   ))}
 </ol>
+
+<script>
+  const STACKING = "(width >= 48rem) and (height >= 40rem) and (prefers-reduced-motion: no-preference)";
+
+  function start(stack: HTMLElement) {
+    const items = [...stack.querySelectorAll<HTMLElement>(":scope > li")];
+    const cards = items.map((item) => item.firstElementChild as HTMLElement);
+    const media = matchMedia(STACKING);
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      if (!media.matches) {
+        for (const card of cards) card.style.transform = "";
+        return;
+      }
+
+      const shrink = parseFloat(getComputedStyle(stack).getPropertyValue("--stack-shrink")) || 0;
+
+      // How far each card has slid over the one before it: 0 = a full card height away, 1 = stuck in place.
+      const covered = items.map((item, index) => {
+        if (index === 0) return 0;
+        const distance = item.getBoundingClientRect().top - parseFloat(getComputedStyle(item).top);
+        return Math.min(Math.max(1 - distance / item.offsetHeight, 0), 1);
+      });
+
+      cards.forEach((card, index) => {
+        const depth = covered.slice(index + 1).reduce((sum, value) => sum + value, 0);
+        card.style.transform = depth > 0 ? `scale(${1 - depth * shrink})` : "";
+      });
+    };
+
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("resize", schedule);
+    media.addEventListener("change", schedule);
+    update();
+
+    document.addEventListener(
+      "astro:before-swap",
+      () => {
+        cancelAnimationFrame(frame);
+        window.removeEventListener("scroll", schedule);
+        window.removeEventListener("resize", schedule);
+        media.removeEventListener("change", schedule);
+      },
+      { once: true },
+    );
+  }
+
+  // Runs on first load and after every client-side page change.
+  document.addEventListener("astro:page-load", () => {
+    const stack = document.querySelector<HTMLElement>("[data-work-stack]");
+    if (stack) start(stack);
+  });
+</script>
 
 <style>
   .stack {
@@ -44,6 +104,11 @@ const entries = (await getCollection("work", ({ data }) => data.featured)).sort(
     .stack li {
       position: sticky;
       top: calc(var(--stack-top) + var(--stack-index) * var(--stack-step));
+    }
+
+    /* Shrink from the top edge, so each card's top stays visible above the next. */
+    .stack li > :global(*) {
+      transform-origin: top center;
     }
   }
 </style>
