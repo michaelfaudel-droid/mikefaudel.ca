@@ -17,7 +17,7 @@ const isCurrent = (href: string) => href !== "/" && path.startsWith(href);
 <header class="site-header">
   <Container class="inner">
     <a href="/" class="name">
-      <Image src={logo} alt="" width={40} height={32} />
+      <Image src={logo} alt="" width={96} height={77} format="png" loading="eager" />
       <span>Mike Faudel</span>
     </a>
     <nav aria-label="Main">
@@ -35,13 +35,10 @@ const isCurrent = (href: string) => href !== "/" && path.startsWith(href);
 </header>
 
 <style>
+  /* Transparent and scrolls with the page, so the ambient background shows through. */
   .site-header {
-    position: sticky;
-    top: 0;
+    position: relative;
     z-index: 5;
-    background: color-mix(in srgb, var(--color-bg) 80%, transparent);
-    backdrop-filter: blur(12px);
-    border-bottom: var(--border-width) solid var(--color-border);
   }
 
   .site-header :global(.inner) {
@@ -61,10 +58,10 @@ const isCurrent = (href: string) => href !== "/" && path.startsWith(href);
     text-decoration: none;
   }
 
+  /* The logo is a black shape with a thin white edge, so it reads as an outline on dark backgrounds. */
   .name :global(img) {
-    width: 2rem;
+    width: 3rem;
     height: auto;
-    filter: invert(1);
   }
 
   ul {
