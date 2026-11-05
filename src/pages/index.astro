@@ -11,7 +11,7 @@ import mark from "../assets/brand/mark.png";
 
 <BaseLayout ambient="animated">
   <section class="hero">
-    <Container>
+    <Container width="feature">
       <div>
         <h1 class="display">
           <span class="first-name">
@@ -34,14 +34,14 @@ import mark from "../assets/brand/mark.png";
   </section>
 
   <section class="section">
-    <Container>
+    <Container width="feature">
       <SectionHeading eyebrow="Selected work">Case studies</SectionHeading>
       <WorkStack />
     </Container>
   </section>
 
   <section class="section">
-    <Container>
+    <Container width="feature">
       <SectionHeading eyebrow="Experience">Where I've worked</SectionHeading>
       <ul class="experience">
         {experience.map(({ role, company, years, logo, summary }) => (

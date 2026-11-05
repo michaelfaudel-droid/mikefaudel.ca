@@ -1,6 +1,6 @@
 ---
 interface Props {
-  width?: "content" | "prose";
+  width?: "content" | "feature" | "prose";
   class?: string;
 }
 
@@ -20,6 +20,10 @@ const { width = "content", class: className } = Astro.props;
 
   .container--content {
     max-width: calc(var(--width-content) + 2 * var(--gutter));
+  }
+
+  .container--feature {
+    max-width: calc(var(--width-feature) + 2 * var(--gutter));
   }
 
   .container--prose {
