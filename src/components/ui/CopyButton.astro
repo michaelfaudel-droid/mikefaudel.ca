@@ -1,0 +1,70 @@
+---
+/* Copies `value` to the clipboard and briefly confirms with "Copied". */
+interface Props {
+  value: string;
+  label?: string;
+}
+
+const { value, label = "Copy" } = Astro.props;
+---
+
+<button type="button" class="copy" data-copy={value} data-label={label}>
+  <span aria-live="polite">{label}</span>
+</button>
+
+<script>
+  // Older or locked-down browsers can refuse the Clipboard API; fall back to a hidden textarea.
+  function legacyCopy(value: string) {
+    const area = document.createElement("textarea");
+    area.value = value;
+    area.setAttribute("readonly", "");
+    area.style.position = "fixed";
+    area.style.opacity = "0";
+    document.body.append(area);
+    area.select();
+    const copied = document.execCommand("copy");
+    area.remove();
+    if (!copied) throw new Error("Copy failed");
+  }
+
+  document.addEventListener("astro:page-load", () => {
+    for (const button of document.querySelectorAll<HTMLButtonElement>("[data-copy]")) {
+      const text = button.querySelector("span");
+      if (!text) continue;
+
+      button.addEventListener("click", async () => {
+        const value = button.dataset.copy ?? "";
+        try {
+          await (navigator.clipboard?.writeText(value) ?? Promise.reject()).catch(() =>
+            legacyCopy(value),
+          );
+          text.textContent = "Copied";
+        } catch {
+          text.textContent = "Couldn't copy";
+        }
+        setTimeout(() => (text.textContent = button.dataset.label ?? "Copy"), 2000);
+      });
+    }
+  });
+</script>
+
+<style>
+  .copy {
+    padding: var(--space-xs) var(--space-md);
+    border: var(--border-width) solid var(--color-border);
+    border-radius: var(--radius-pill);
+    background: transparent;
+    color: var(--color-text-strong);
+    font: inherit;
+    font-weight: var(--weight-medium);
+    cursor: pointer;
+    transition:
+      background-color var(--duration-fast) var(--ease-out),
+      border-color var(--duration-fast) var(--ease-out);
+  }
+
+  .copy:hover {
+    border-color: var(--color-text-subtle);
+    background: var(--color-surface-raised);
+  }
+</style>

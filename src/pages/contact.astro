@@ -1,0 +1,68 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Container from "../components/ui/Container.astro";
+import Button from "../components/ui/Button.astro";
+import CopyButton from "../components/ui/CopyButton.astro";
+
+const email = "michaelfaudel@gmail.com";
+---
+
+<BaseLayout title="Contact" ambient="animated">
+  <Container width="feature" class="page">
+    <h1>Get in touch</h1>
+    <p class="lead">The best way to reach me is by email.</p>
+
+    <p class="email">{email}</p>
+    <div class="actions">
+      <CopyButton value={email} label="Copy email" />
+      <Button href={`mailto:${email}`} variant="secondary">Open in mail app</Button>
+    </div>
+
+    <p class="elsewhere">
+      Or find me on <a href="https://www.linkedin.com/in/mikefaudel/" rel="me">LinkedIn</a>.
+    </p>
+  </Container>
+</BaseLayout>
+
+<style>
+  :global(.page) {
+    padding-top: var(--space-section);
+  }
+
+  h1 {
+    font-size: var(--text-display);
+    font-weight: var(--weight-regular);
+    line-height: var(--leading-tight);
+    letter-spacing: var(--tracking-tight);
+  }
+
+  .lead {
+    margin-top: var(--space-md);
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+  }
+
+  .email {
+    margin-top: var(--space-xl);
+    font-size: var(--text-2xl);
+    line-height: var(--leading-snug);
+    color: var(--color-text-strong);
+    overflow-wrap: anywhere;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin-top: var(--space-md);
+  }
+
+  .elsewhere {
+    margin-top: var(--space-xl);
+    color: var(--color-text-muted);
+  }
+
+  .elsewhere a {
+    color: var(--color-text-strong);
+  }
+</style>

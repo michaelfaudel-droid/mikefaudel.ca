@@ -2,13 +2,17 @@
 import Container from "./ui/Container.astro";
 
 const year = new Date().getFullYear();
+// The contact page is already the call to action, so skip the big link there.
+const onContact = Astro.url.pathname.replace(/\.html$/, "") === "/contact";
 ---
 
 <footer class="site-footer">
   <Container>
-    <a class="contact" href="mailto:michaelfaudel@gmail.com">
-      Get in touch
-    </a>
+    {!onContact && (
+      <a class="contact" href="/contact">
+        Get in touch
+      </a>
+    )}
     <div class="bottom">
       <p>© {year} Mike Faudel</p>
       <ul>
@@ -18,7 +22,7 @@ const year = new Date().getFullYear();
           </a>
         </li>
         <li>
-          <a href="mailto:michaelfaudel@gmail.com">Mail</a>
+          <a href="/contact">Contact</a>
         </li>
       </ul>
     </div>
