@@ -60,3 +60,9 @@ stats:
   - { value: "90%", label: "Stat label" }
   - { value: "2x", label: "Another stat" }
 ```
+
+## Hidden pages
+
+`src/pages/_consulting.astro` is the Services page, kept but not published (Astro skips
+files starting with `_`). To bring it back, rename it to `consulting.astro` and add
+`{ href: "/consulting", label: "Services" }` to the links in `src/components/SiteHeader.astro`.
