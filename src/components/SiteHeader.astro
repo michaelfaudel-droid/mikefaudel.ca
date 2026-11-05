@@ -68,6 +68,13 @@ const isCurrent = (href: string) => href !== "/" && path.startsWith(href);
   .name :global(img) {
     width: 3rem;
     height: auto;
+    transition: transform var(--duration-spring) var(--ease-spring);
+  }
+
+  /* Playful tilt on hover, matching the Framer site. */
+  .name:hover :global(img),
+  .name:focus-visible :global(img) {
+    transform: rotate(2deg) skewX(-5deg);
   }
 
   ul {

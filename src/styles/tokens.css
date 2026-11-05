@@ -132,6 +132,8 @@
   --duration-slow: 500ms;
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --duration-spring: 400ms;
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1); /* small overshoot, like a light spring */
 
   /* ---------- Semantic: elevation ---------- */
   --shadow-sm: 0 1px 2px color-mix(in srgb, var(--black) 40%, transparent);
@@ -143,5 +145,6 @@
     --duration-fast: 0ms;
     --duration-base: 0ms;
     --duration-slow: 0ms;
+    --duration-spring: 0ms;
   }
 }
