@@ -19,7 +19,7 @@ src/
   styles/tokens.css        Design tokens: the only place raw values live
   styles/global.css        Base element styles
   components/ui/           Primitives: Button, Tag, Container, SectionHeading
-  components/patterns/     Composed pieces: CaseStudyCard, WorkGrid, ExperienceRow
+  components/patterns/     Composed pieces: CaseStudyFeature, WorkStack, ExperienceRow
   layouts/BaseLayout.astro Page shell: head, header, footer
   content/work/*.mdx       One file per case study
   pages/                   Routes (URLs match the old Framer site)
@@ -41,15 +41,22 @@ src/
 ## Adding a case study
 
 Create `src/content/work/<slug>.mdx` with this frontmatter. It appears at `/work/<slug>`
-and in the grids automatically:
+and in the case study stacks automatically:
 
 ```yaml
-title: "Project title"
-summary: "One sentence."
+title: "Full page title"
+cardTitle: "Shorter title for the card"
+summary: "One or two sentences."
 company: "Company"
 role: "Product Designer"
-year: "2025"
-tags: ["Tag"]
-tint: "blue" # blue | purple | green | brown | red
+duration: "2024 – 2025"
+cover: "../../assets/work/<slug>/cover.png"
+coverAlt: "What the cover image shows"
+tint: "blue" # page header colour: blue | purple | green | brown | red
+glow: "blue" # card glow: green | orange | blue
 order: 5
+featured: true # set false to hide it from the home page (still on /work)
+stats:
+  - { value: "90%", label: "Stat label" }
+  - { value: "2x", label: "Another stat" }
 ```

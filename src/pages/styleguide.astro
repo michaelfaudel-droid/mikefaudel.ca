@@ -9,7 +9,6 @@ import Container from "../components/ui/Container.astro";
 import Button from "../components/ui/Button.astro";
 import Tag from "../components/ui/Tag.astro";
 import SectionHeading from "../components/ui/SectionHeading.astro";
-import CaseStudyCard from "../components/patterns/CaseStudyCard.astro";
 import CaseStudyFeature from "../components/patterns/CaseStudyFeature.astro";
 import ExperienceRow from "../components/patterns/ExperienceRow.astro";
 import Stats from "../components/content/Stats.astro";
@@ -175,25 +174,8 @@ const radii = ["--radius-sm", "--radius-md", "--radius-lg", "--radius-xl", "--ra
 
     <section>
       <h2>Case study card</h2>
-      <div class="card-demo">
-        <CaseStudyCard
-          href="#"
-          title="Example case study title"
-          summary="A one-sentence summary of the problem and the outcome."
-          company="Company"
-          stats={[
-            { value: "75%", label: "Stat label" },
-            { value: "#2", label: "Another stat" },
-          ]}
-          tint="purple"
-        />
-      </div>
-    </section>
-
-    <section>
-      <h2>Featured case study card</h2>
       <p class="intro">
-        Used in the home page stack, where each card sticks a little lower than the last
+        Used in the stacks on the home and work pages, where each card sticks a little lower than the last
         (<code>--stack-top</code>, <code>--stack-step</code>).
       </p>
       <CaseStudyFeature
@@ -338,10 +320,6 @@ const radii = ["--radius-sm", "--radius-md", "--radius-lg", "--radius-xl", "--ra
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-xs);
-  }
-
-  .card-demo {
-    max-width: 28rem;
   }
 
   .experience {

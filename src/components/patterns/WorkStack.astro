@@ -1,6 +1,6 @@
 ---
 /*
- * Featured case studies as a vertical stack. On larger screens each card sticks
+ * Case studies as a vertical stack. On larger screens each card sticks
  * a little lower than the one before, so they pile up as you scroll. Stacking is
  * pure CSS (position: sticky), so scrolling stays native; a small script shrinks
  * the cards behind as the next one slides over them.
@@ -8,7 +8,12 @@
 import { getCollection } from "astro:content";
 import CaseStudyFeature from "./CaseStudyFeature.astro";
 
-const entries = (await getCollection("work", ({ data }) => data.featured)).sort(
+interface Props {
+  featuredOnly?: boolean;
+}
+
+const { featuredOnly = false } = Astro.props;
+const entries = (await getCollection("work", ({ data }) => !featuredOnly || data.featured)).sort(
   (a, b) => a.data.order - b.data.order,
 );
 ---

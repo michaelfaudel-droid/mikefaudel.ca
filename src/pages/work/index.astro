@@ -2,11 +2,11 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Container from "../../components/ui/Container.astro";
 import SectionHeading from "../../components/ui/SectionHeading.astro";
-import WorkGrid from "../../components/patterns/WorkGrid.astro";
+import WorkStack from "../../components/patterns/WorkStack.astro";
 ---
 
 <BaseLayout title="Work" ambient="animated">
-  <Container class="page">
+  <Container width="feature" class="page">
     <SectionHeading as="h1" eyebrow="Work">
       Case studies
     </SectionHeading>
@@ -14,7 +14,7 @@ import WorkGrid from "../../components/patterns/WorkGrid.astro";
       UX/UI design at scale for enterprise SaaS platforms, with deep expertise in generative AI
       software. Currently a product designer at Microsoft.
     </p>
-    <WorkGrid />
+    <WorkStack />
   </Container>
 </BaseLayout>
 
