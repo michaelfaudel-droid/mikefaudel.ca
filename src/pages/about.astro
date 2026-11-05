@@ -9,20 +9,18 @@ import portrait from "../assets/about/portrait.png";
 ---
 
 <BaseLayout title="About">
-  <Container class="page">
+  <Container width="feature" class="page">
     <div class="intro">
       <Image
         class="portrait"
         src={portrait}
         alt="Illustrated portrait of Mike Faudel"
-        widths={[320, 640]}
-        sizes="20rem"
+        widths={[160, 320, 480]}
+        sizes="9rem"
         loading="eager"
       />
       <div>
-        <SectionHeading as="h1" eyebrow="About">
-          Hi.
-        </SectionHeading>
+        <h1 class="hi">Hi. <span class="wave" aria-hidden="true">👋</span></h1>
         <div class="prose">
           <p>
             I'm a product designer specializing in enterprise AI tooling, the kind of complex,
@@ -70,14 +68,48 @@ import portrait from "../assets/about/portrait.png";
 
   .intro {
     display: grid;
-    grid-template-columns: 20rem 1fr;
-    gap: var(--space-2xl);
+    grid-template-columns: 12rem minmax(0, var(--width-about-text));
+    gap: var(--space-lg);
     align-items: start;
   }
 
+  /* Fades in after the page loads, then lifts and tilts on hover (matching the Framer site). */
   .intro :global(.portrait) {
     width: 100%;
-    border-radius: var(--radius-pill);
+    height: 9rem;
+    object-fit: contain;
+    opacity: 0.83;
+    animation: portrait-in var(--duration-slower) var(--ease-in-out) 0.5s backwards;
+    transition:
+      transform var(--duration-pop) var(--ease-pop),
+      opacity var(--duration-pop) var(--ease-pop);
+  }
+
+  .intro :global(.portrait:hover) {
+    opacity: 1;
+    transform: rotate(1deg) rotateX(7deg) rotateY(13deg) scale(1.1);
+  }
+
+  @keyframes portrait-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  .hi {
+    margin-bottom: var(--space-md);
+    font-family: var(--font-sans);
+    font-size: var(--text-xl);
+    font-weight: var(--weight-medium);
+  }
+
+  .wave {
+    display: inline-block;
+    transition: transform var(--duration-spring) var(--ease-in-out);
+  }
+
+  .wave:hover {
+    transform: rotate(20deg) scale(1.1);
   }
 
   .section {
@@ -96,7 +128,7 @@ import portrait from "../assets/about/portrait.png";
     }
 
     .intro :global(.portrait) {
-      width: 10rem;
+      width: 9rem;
     }
   }
 </style>
