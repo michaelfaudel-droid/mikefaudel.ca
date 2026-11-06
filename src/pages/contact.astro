@@ -9,8 +9,7 @@ const email = "michaelfaudel@gmail.com";
 
 <BaseLayout title="Contact" ambient="animated">
   <Container width="feature" class="page">
-    <!-- "uch" slides in from the right, bumps into "to", then springs back into place. -->
-    <h1>Get in <span class="touch">to<span class="uch">uch</span></span></h1>
+    <h1>Get in touch</h1>
 
     <p class="email">{email}</p>
     <div class="actions">
@@ -42,54 +41,6 @@ const email = "michaelfaudel@gmail.com";
     line-height: var(--leading-snug);
     color: var(--color-text-strong);
     overflow-wrap: anywhere;
-  }
-
-  .touch {
-    white-space: nowrap;
-  }
-
-  .uch {
-    display: inline-block;
-    animation: uch-in 1.1s 0.3s backwards;
-  }
-
-  /* Accelerates in, collides so the "u" touches the "o", then springs back to rest. */
-  @keyframes uch-in {
-    0% {
-      opacity: 0;
-      transform: translateX(0.6em);
-      animation-timing-function: cubic-bezier(0.5, 0, 0.9, 0.6);
-    }
-
-    20% {
-      opacity: 1;
-    }
-
-    50% {
-      /* The "o" to "u" gap in Lexend Deca is 0.062em, so this just closes it. */
-      transform: translateX(-0.065em);
-      animation-timing-function: cubic-bezier(0.2, 0.6, 0.4, 1);
-    }
-
-    72% {
-      transform: translateX(0.04em);
-      animation-timing-function: ease-in-out;
-    }
-
-    86% {
-      transform: translateX(-0.01em);
-      animation-timing-function: ease-in-out;
-    }
-
-    100% {
-      transform: none;
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .uch {
-      animation: none;
-    }
   }
 
   .actions {
