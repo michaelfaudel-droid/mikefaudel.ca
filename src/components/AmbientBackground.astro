@@ -1,5 +1,9 @@
 ---
-/* Fixed page backdrop: drifting circles under a heavy blur, with a grain tile on top. */
+/*
+ * Fixed page backdrop: drifting soft circles with a grain tile on top.
+ * The softness is drawn into the canvas (feathered circles, faded edges) rather
+ * than a CSS blur filter, which iOS Safari sometimes skips on large elements.
+ */
 interface Props {
   animated?: boolean;
 }
@@ -26,12 +30,27 @@ const { animated = true } = Astro.props;
     if (!context) return;
 
     const styles = getComputedStyle(document.documentElement);
-    const palette = [1, 2, 3, 4, 5, 6].map((n) => styles.getPropertyValue(`--ambient-${n}`).trim());
+    const blur = parseFloat(styles.getPropertyValue("--ambient-blur")) || 57;
     const base = styles.getPropertyValue("--ambient-base").trim();
 
+    // Normalise each colour to #rrggbb so a fully transparent version can be made for gradients.
+    const toHex = (color: string) => {
+      context.fillStyle = color;
+      return context.fillStyle;
+    };
+    const palette = [1, 2, 3, 4, 5, 6].map((n) =>
+      toHex(styles.getPropertyValue(`--ambient-${n}`).trim()),
+    );
+
+    // The canvas is larger than the drifting area by `fade` on every side (see CSS).
+    const fade = blur * 2;
+    let width = 0;
+    let height = 0;
     const resize = () => {
       canvas.width = canvas.offsetWidth;
       canvas.height = canvas.offsetHeight;
+      width = canvas.width - fade * 2;
+      height = canvas.height - fade * 2;
     };
     resize();
 
@@ -39,8 +58,8 @@ const { animated = true } = Astro.props;
       const angle = random(0, Math.PI * 2);
       const speed = random(0.4, 1) * MAX_SPEED;
       return {
-        x: random(0, canvas.width),
-        y: random(0, canvas.height),
+        x: random(0, width),
+        y: random(0, height),
         radius: random(MIN_RADIUS, MAX_RADIUS),
         color: palette[index % palette.length],
         vx: Math.cos(angle) * speed,
@@ -48,15 +67,25 @@ const { animated = true } = Astro.props;
       };
     });
 
+    // A feathered disc: solid in the middle, fading out over about two blur radii,
+    // and fainter overall when the circle is small (as a real blur would make it).
+    const drawSoftCircle = (x: number, y: number, radius: number, color: string) => {
+      const outer = radius + blur * 2;
+      const solid = Math.max(radius - blur, 0) / outer;
+      const strength = Math.min(radius / (blur * 1.5), 1);
+      const alpha = Math.round(strength * 255).toString(16).padStart(2, "0");
+      const gradient = context.createRadialGradient(x, y, 0, x, y, outer);
+      gradient.addColorStop(0, color + alpha);
+      gradient.addColorStop(solid, color + alpha);
+      gradient.addColorStop(1, color + "00");
+      context.fillStyle = gradient;
+      context.fillRect(x - outer, y - outer, outer * 2, outer * 2);
+    };
+
     const draw = () => {
       context.fillStyle = base;
       context.fillRect(0, 0, canvas.width, canvas.height);
-      for (const { x, y, radius, color } of circles) {
-        context.fillStyle = color;
-        context.beginPath();
-        context.arc(x, y, radius, 0, Math.PI * 2);
-        context.fill();
-      }
+      for (const { x, y, radius, color } of circles) drawSoftCircle(x + fade, y + fade, radius, color);
     };
 
     const step = (seconds: number) => {
@@ -70,10 +99,10 @@ const { animated = true } = Astro.props;
         circle.y += circle.vy * seconds;
 
         const margin = circle.radius;
-        if (circle.x < -margin) circle.x = canvas.width + margin;
-        if (circle.x > canvas.width + margin) circle.x = -margin;
-        if (circle.y < -margin) circle.y = canvas.height + margin;
-        if (circle.y > canvas.height + margin) circle.y = -margin;
+        if (circle.x < -margin) circle.x = width + margin;
+        if (circle.x > width + margin) circle.x = -margin;
+        if (circle.y < -margin) circle.y = height + margin;
+        if (circle.y > height + margin) circle.y = -margin;
       }
     };
 
@@ -120,13 +149,35 @@ const { animated = true } = Astro.props;
     overflow: hidden;
   }
 
+  /*
+   * The drifting area is 85% wide and --ambient-height tall, centred. The canvas
+   * extends past it by two blur radii on each side, and a mask fades those
+   * margins out, giving the same soft edge a blur would.
+   */
   .circles {
+    --fade: calc(var(--ambient-blur) * 2);
+
     position: absolute;
-    top: calc(50% - var(--ambient-height) / 2);
-    left: 7.6667%;
-    width: 85%;
-    height: var(--ambient-height);
-    filter: blur(var(--ambient-blur));
+    top: calc(50% - var(--ambient-height) / 2 - var(--fade));
+    left: calc(7.5% - var(--fade));
+    width: calc(85% + 2 * var(--fade));
+    height: calc(var(--ambient-height) + 2 * var(--fade));
+    mask-image:
+      linear-gradient(
+        to right,
+        transparent,
+        var(--black) calc(2 * var(--fade)),
+        var(--black) calc(100% - 2 * var(--fade)),
+        transparent
+      ),
+      linear-gradient(
+        to bottom,
+        transparent,
+        var(--black) calc(2 * var(--fade)),
+        var(--black) calc(100% - 2 * var(--fade)),
+        transparent
+      );
+    mask-composite: intersect;
   }
 
   .grain {
