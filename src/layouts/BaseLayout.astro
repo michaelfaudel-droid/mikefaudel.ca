@@ -11,6 +11,8 @@ interface Props {
   noindex?: boolean;
   /** "animated" adds the drifting circles and grain, "grain" adds the grain only. */
   ambient?: "animated" | "grain" | "none";
+  /** Link-preview image path (e.g. a case study cover); defaults to the site-wide one. */
+  image?: string;
 }
 
 const {
@@ -18,11 +20,13 @@ const {
   description = "Mike Faudel — Product Designer making complex AI feel effortless.",
   noindex = false,
   ambient = "none",
+  image = "/og.jpg",
 } = Astro.props;
 
 const fullTitle = title ? `${title} · Mike Faudel` : "Mike Faudel — Product Designer";
 const pathname = Astro.url.pathname.replace(/(index)?\.html$/, "") || "/";
 const canonical = new URL(pathname, Astro.site);
+const imageUrl = new URL(image, Astro.site);
 ---
 
 <!doctype html>
@@ -33,10 +37,15 @@ const canonical = new URL(pathname, Astro.site);
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Mike Faudel" />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={imageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
     {noindex && <meta name="robots" content="noindex" />}
     <ClientRouter />
   </head>
