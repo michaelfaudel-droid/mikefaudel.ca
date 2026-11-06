@@ -82,6 +82,8 @@ const logos = await Astro.slots.render("default");
     flex: none;
     width: auto;
     height: 2.5rem;
+    max-width: 12.5rem; /* very wide wordmarks shrink to fit instead of dominating */
+    object-fit: contain;
     border-radius: 0; /* case study images are rounded; logos shouldn't be clipped */
     opacity: 0.7;
   }
