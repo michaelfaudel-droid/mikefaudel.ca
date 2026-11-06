@@ -16,6 +16,12 @@ import ExperienceRow from "../components/patterns/ExperienceRow.astro";
 import Stats from "../components/content/Stats.astro";
 import Facts from "../components/content/Facts.astro";
 import Quote from "../components/content/Quote.astro";
+import LogoTicker from "../components/content/LogoTicker.astro";
+import { Image } from "astro:assets";
+import logoA from "../assets/work/copilot-studio/03.png";
+import logoB from "../assets/work/copilot-studio/04.png";
+import logoC from "../assets/work/copilot-studio/05.png";
+import logoD from "../assets/work/copilot-studio/06.png";
 
 const colors = [
   "--color-bg",
@@ -223,6 +229,18 @@ const radii = ["--radius-sm", "--radius-md", "--radius-lg", "--radius-xl", "--ra
       <Quote by="Person, Role" context="Where it was said">
         A quote from a stakeholder.
       </Quote>
+    </section>
+
+    <section>
+      <h2>Logo ticker (for MDX)</h2>
+      <LogoTicker title="Customers">
+        <p>
+          <Image src={logoA} alt="Customer logo" height={80} />
+          <Image src={logoB} alt="Customer logo" height={80} />
+          <Image src={logoC} alt="Customer logo" height={80} />
+          <Image src={logoD} alt="Customer logo" height={80} />
+        </p>
+      </LogoTicker>
     </section>
 
     <section>

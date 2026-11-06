@@ -1,0 +1,119 @@
+---
+/*
+ * A row of customer logos that scrolls sideways on a loop, fading out at the
+ * edges (matching the Framer ticker). Wrap Markdown images in it. The logos are
+ * rendered twice so the loop is seamless; the copy is hidden from screen readers.
+ * With reduced motion, it's a static, wrapping row instead.
+ */
+interface Props {
+  title?: string;
+}
+
+const { title } = Astro.props;
+const logos = await Astro.slots.render("default");
+---
+
+<section class="logo-ticker">
+  {title && <h3>{title}</h3>}
+  <div class="viewport" data-ticker>
+    <div class="track">
+      <div class="set" set:html={logos} />
+      <div class="set copy" aria-hidden="true" set:html={logos} />
+    </div>
+  </div>
+</section>
+
+<script>
+  const SPEED = 75; // px per second, as on the Framer site
+
+  // Duration depends on how wide one set of logos is, so the speed stays constant.
+  const setDurations = () => {
+    for (const ticker of document.querySelectorAll<HTMLElement>("[data-ticker]")) {
+      const set = ticker.querySelector<HTMLElement>(".set");
+      if (set?.offsetWidth) ticker.style.setProperty("--ticker-duration", `${set.offsetWidth / SPEED}s`);
+    }
+  };
+
+  document.addEventListener("astro:page-load", () => {
+    setDurations();
+    // Logos load lazily; measure again as each one arrives.
+    for (const img of document.querySelectorAll<HTMLImageElement>("[data-ticker] img")) {
+      if (!img.complete) img.addEventListener("load", setDurations, { once: true });
+    }
+  });
+  window.addEventListener("resize", setDurations);
+</script>
+
+<style>
+  .viewport {
+    --ticker-gap: 3.375rem;
+
+    overflow: hidden;
+    padding-block: var(--space-sm);
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      var(--black) 25%,
+      var(--black) 75%,
+      transparent
+    );
+  }
+
+  .track {
+    display: flex;
+    width: max-content;
+    animation: ticker var(--ticker-duration, 30s) linear infinite;
+  }
+
+  .viewport:hover .track {
+    animation-play-state: paused;
+  }
+
+  /* Each set carries the gap on its right, so the seam between copies matches. */
+  .set :global(p) {
+    display: flex;
+    align-items: center;
+    gap: var(--ticker-gap);
+    padding-right: var(--ticker-gap);
+  }
+
+  /* A fixed height lets each logo take its size from its width/height attributes before it loads. */
+  .set :global(img) {
+    flex: none;
+    width: auto;
+    height: 2.5rem;
+    opacity: 0.7;
+  }
+
+  /* Moves right: starts one set to the left and slides into place. */
+  @keyframes ticker {
+    from {
+      transform: translateX(-50%);
+    }
+
+    to {
+      transform: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .viewport {
+      mask-image: none;
+    }
+
+    .track {
+      width: auto;
+      animation: none;
+    }
+
+    .copy {
+      display: none;
+    }
+
+    .set :global(p) {
+      flex-wrap: wrap;
+      justify-content: center;
+      padding-right: 0;
+    }
+  }
+</style>
