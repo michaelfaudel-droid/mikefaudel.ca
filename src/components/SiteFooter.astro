@@ -7,7 +7,7 @@ const onContact = Astro.url.pathname.replace(/\.html$/, "") === "/contact";
 ---
 
 <footer class="site-footer">
-  <Container>
+  <Container width="feature">
     {!onContact && (
       <a class="contact" href="/contact">
         Get in touch

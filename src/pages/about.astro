@@ -3,7 +3,7 @@ import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Container from "../components/ui/Container.astro";
 import SectionHeading from "../components/ui/SectionHeading.astro";
-import ExperienceRow from "../components/patterns/ExperienceRow.astro";
+import ExperienceCard from "../components/patterns/ExperienceCard.astro";
 import Button from "../components/ui/Button.astro";
 import { experience } from "../data/experience";
 import portrait from "../assets/about/portrait.png";
@@ -57,7 +57,7 @@ import portrait from "../assets/about/portrait.png";
       <SectionHeading>Experience</SectionHeading>
       <ul class="experience">
         {experience.map(({ role, company, years, logo, detail }) => (
-          <ExperienceRow
+          <ExperienceCard
             role={role}
             company={company}
             years={years}
@@ -130,9 +130,10 @@ import portrait from "../assets/about/portrait.png";
   }
 
   .experience {
+    display: grid;
+    gap: var(--space-lg);
     list-style: none;
     padding: 0;
-    border-top: var(--border-width) solid var(--color-border);
   }
 
   @media (width < 48rem) {

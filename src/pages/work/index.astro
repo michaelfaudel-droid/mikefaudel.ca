@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Container from "../../components/ui/Container.astro";
 import SectionHeading from "../../components/ui/SectionHeading.astro";
+import ShineChip from "../../components/ui/ShineChip.astro";
 import WorkStack from "../../components/patterns/WorkStack.astro";
 ---
 
@@ -14,11 +15,14 @@ import WorkStack from "../../components/patterns/WorkStack.astro";
     <SectionHeading as="h1">
       Case studies
     </SectionHeading>
-    <p class="lead">
-      UX/UI design at scale for enterprise SaaS platforms, with deep expertise in generative AI
-      software. Currently a product designer at Microsoft.
-    </p>
     <WorkStack />
+
+    <p class="expertise">
+      Expert in <ShineChip text="UX/UI design" /> with an emphasis on designing at scale for{" "}
+      <ShineChip text="Enterprise SaaS" /> platforms, with deep expertise in{" "}
+      <ShineChip text="Generative AI" /> software. Currently a{" "}
+      <ShineChip text="Product Designer" /> at Microsoft.
+    </p>
   </Container>
 </BaseLayout>
 
@@ -27,10 +31,12 @@ import WorkStack from "../../components/patterns/WorkStack.astro";
     padding-top: var(--space-section);
   }
 
-  .lead {
-    max-width: var(--width-prose);
-    margin-bottom: var(--space-xl);
+  .expertise {
+    max-width: 44rem;
+    margin: var(--space-section) auto 0;
     font-size: var(--text-lg);
-    color: var(--color-text-muted);
+    line-height: 2.4;
+    text-align: center;
+    color: var(--color-text-strong);
   }
 </style>

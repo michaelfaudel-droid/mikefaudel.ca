@@ -9,10 +9,11 @@ import Container from "../components/ui/Container.astro";
 import Button from "../components/ui/Button.astro";
 import Tag from "../components/ui/Tag.astro";
 import CopyButton from "../components/ui/CopyButton.astro";
+import ShineChip from "../components/ui/ShineChip.astro";
 import WordFlip from "../components/ui/WordFlip.astro";
 import SectionHeading from "../components/ui/SectionHeading.astro";
 import CaseStudyFeature from "../components/patterns/CaseStudyFeature.astro";
-import ExperienceRow from "../components/patterns/ExperienceRow.astro";
+import ExperienceCard from "../components/patterns/ExperienceCard.astro";
 import Stats from "../components/content/Stats.astro";
 import Facts from "../components/content/Facts.astro";
 import Quote from "../components/content/Quote.astro";
@@ -35,7 +36,8 @@ const colors = [
   "--color-accent",
 ];
 const tints = ["--tint-blue", "--tint-purple", "--tint-green", "--tint-brown", "--tint-red"];
-const feature = ["--color-surface-feature", "--glow-green", "--glow-orange", "--glow-blue"];
+const feature = ["--color-surface-feature", "--color-surface-card", "--glow-green", "--glow-orange", "--glow-blue"];
+const chip = ["--chip-border", "--chip-shine", "--chip-text", "--chip-text-shine"];
 const flip = ["--flip-1", "--flip-2", "--flip-3", "--flip-4", "--flip-5", "--flip-6"];
 const ambient = [
   "--ambient-1",
@@ -50,9 +52,12 @@ const fonts = ["--font-display", "--font-sans", "--font-mono"];
 const textSizes = [
   "--text-display",
   "--text-2xl",
+  "--text-title",
+  "--text-heading",
   "--text-stat",
   "--text-xl",
   "--text-lg",
+  "--text-reading",
   "--text-md",
   "--text-base",
   "--text-sm",
@@ -84,7 +89,7 @@ const radii = ["--radius-sm", "--radius-md", "--radius-lg", "--radius-xl", "--ra
     <section>
       <h2>Colour</h2>
       <div class="swatches">
-        {[...colors, ...tints, ...feature, ...flip, ...ambient].map((name) => (
+        {[...colors, ...tints, ...feature, ...flip, ...chip, ...ambient].map((name) => (
           <figure class="swatch">
             <div class="chip" style={`background: var(${name})`} />
             <figcaption>
@@ -165,6 +170,7 @@ const radii = ["--radius-sm", "--radius-md", "--radius-lg", "--radius-xl", "--ra
           Small
         </Button>
         <CopyButton value="Copied from the styleguide" label="Copy button" />
+        <ShineChip text="Shine chip" />
       </div>
     </section>
 
@@ -225,7 +231,10 @@ const radii = ["--radius-sm", "--radius-md", "--radius-lg", "--radius-xl", "--ra
           { label: "Headquarters", value: "City, Region" },
           { label: "Founded", value: "2015" },
         ]}
-      />
+      >
+        <h2>Section beside the facts</h2>
+        <p>The section that follows the facts sits in the wider column on the right.</p>
+      </Facts>
       <Quote by="Person, Role" context="Where it was said">
         A quote from a stakeholder.
       </Quote>
@@ -244,9 +253,9 @@ const radii = ["--radius-sm", "--radius-md", "--radius-lg", "--radius-xl", "--ra
     </section>
 
     <section>
-      <h2>Experience row</h2>
+      <h2>Experience card</h2>
       <ul class="experience">
-        <ExperienceRow
+        <ExperienceCard
           role="Product Designer"
           company="Company"
           years="2020–2023"

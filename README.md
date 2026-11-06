@@ -19,7 +19,7 @@ src/
   styles/tokens.css        Design tokens: the only place raw values live
   styles/global.css        Base element styles
   components/ui/           Primitives: Button, Tag, Container, SectionHeading
-  components/patterns/     Composed pieces: CaseStudyFeature, WorkStack, ExperienceRow
+  components/patterns/     Composed pieces: CaseStudyFeature, WorkStack, ExperienceCard
   layouts/BaseLayout.astro Page shell: head, header, footer
   content/work/*.mdx       One file per case study
   pages/                   Routes (URLs match the old Framer site)
