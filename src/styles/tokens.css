@@ -40,6 +40,14 @@
   --glow-orange: #d48740;
   --glow-blue: #0f6499;
 
+  /* Word flip on the home tagline: each passing word takes the next colour */
+  --flip-1: #82c95e;
+  --flip-2: #f0a35e;
+  --flip-3: #6cb6ff;
+  --flip-4: #c49bff;
+  --flip-5: #ff7a90;
+  --flip-6: #f5d76e;
+
   /* Ambient background: circle colours, canvas fill, and its blur and grain */
   --ambient-1: #123045;
   --ambient-2: #2a3f4d;

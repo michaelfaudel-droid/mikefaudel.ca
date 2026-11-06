@@ -9,6 +9,7 @@ import Container from "../components/ui/Container.astro";
 import Button from "../components/ui/Button.astro";
 import Tag from "../components/ui/Tag.astro";
 import CopyButton from "../components/ui/CopyButton.astro";
+import WordFlip from "../components/ui/WordFlip.astro";
 import SectionHeading from "../components/ui/SectionHeading.astro";
 import CaseStudyFeature from "../components/patterns/CaseStudyFeature.astro";
 import ExperienceRow from "../components/patterns/ExperienceRow.astro";
@@ -29,6 +30,7 @@ const colors = [
 ];
 const tints = ["--tint-blue", "--tint-purple", "--tint-green", "--tint-brown", "--tint-red"];
 const feature = ["--color-surface-feature", "--glow-green", "--glow-orange", "--glow-blue"];
+const flip = ["--flip-1", "--flip-2", "--flip-3", "--flip-4", "--flip-5", "--flip-6"];
 const ambient = [
   "--ambient-1",
   "--ambient-2",
@@ -76,7 +78,7 @@ const radii = ["--radius-sm", "--radius-md", "--radius-lg", "--radius-xl", "--ra
     <section>
       <h2>Colour</h2>
       <div class="swatches">
-        {[...colors, ...tints, ...feature, ...ambient].map((name) => (
+        {[...colors, ...tints, ...feature, ...flip, ...ambient].map((name) => (
           <figure class="swatch">
             <div class="chip" style={`background: var(${name})`} />
             <figcaption>
@@ -167,6 +169,17 @@ const radii = ["--radius-sm", "--radius-md", "--radius-lg", "--radius-xl", "--ra
         <Tag>Platform</Tag>
         <Tag>Feature design</Tag>
       </div>
+    </section>
+
+    <section>
+      <h2>Word flip</h2>
+      <p class="intro">
+        Used in the home tagline. Plays once per page load (refresh to replay), using the
+        <code>--flip-*</code> colours.
+      </p>
+      <p style="font-size: var(--text-2xl)">
+        Feels <WordFlip words={["intuitive", "human", "simple", "natural", "calm"]} final="effortless" />
+      </p>
     </section>
 
     <section>

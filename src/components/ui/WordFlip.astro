@@ -1,0 +1,93 @@
+---
+/*
+ * Flips quickly through `words`, slowing down, then lands on `final`.
+ * Plays once per full page load: not again when returning via client-side navigation.
+ * Every word sits in the same grid cell, so the box always fits the longest word
+ * and nothing around it moves. Screen readers only get `final`.
+ */
+interface Props {
+  words: string[];
+  final: string;
+}
+
+const { words, final } = Astro.props;
+const all = [...words, final];
+---
+
+<span class="flip" data-word-flip>
+  <span class="visually-hidden">{final}</span>
+  {all.map((word, index) => (
+    <span
+      class="word"
+      aria-hidden="true"
+      data-final={index === all.length - 1 ? "" : undefined}
+      style={`--flip-color: var(--flip-${(index % 6) + 1})`}
+    >
+      {word}
+    </span>
+  ))}
+</span>
+
+<script>
+  const FIRST_DELAY_MS = 600;
+  const FIRST_STEP_MS = 70;
+  const LAST_STEP_MS = 260;
+
+  // Module state survives client-side navigation but resets on a full load or refresh.
+  let played = false;
+
+  document.addEventListener("astro:page-load", () => {
+    const flip = document.querySelector<HTMLElement>("[data-word-flip]");
+    if (!flip || played) return;
+    played = true;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    const words = [...flip.querySelectorAll<HTMLElement>(".word")];
+    const show = (index: number) => {
+      words.forEach((word, i) => word.toggleAttribute("data-active", i === index));
+    };
+
+    flip.setAttribute("data-flipping", "");
+    show(0);
+
+    let index = 0;
+    const next = () => {
+      index += 1;
+      show(index);
+      if (index === words.length - 1) {
+        flip.removeAttribute("data-flipping");
+        return;
+      }
+      // Ease out: steps get longer as it approaches the final word.
+      const progress = index / (words.length - 1);
+      setTimeout(next, FIRST_STEP_MS + (LAST_STEP_MS - FIRST_STEP_MS) * progress ** 2);
+    };
+    setTimeout(next, FIRST_DELAY_MS);
+  });
+</script>
+
+<style>
+  .flip {
+    display: inline-grid;
+    vertical-align: bottom;
+  }
+
+  .word {
+    grid-area: 1 / 1;
+    visibility: hidden;
+  }
+
+  .word[data-final] {
+    color: var(--color-text-strong);
+  }
+
+  /* Without the script (or once it finishes) only the final word shows. */
+  .flip:not([data-flipping]) .word[data-final],
+  .flip[data-flipping] .word[data-active] {
+    visibility: visible;
+  }
+
+  .flip[data-flipping] .word[data-active] {
+    color: var(--flip-color);
+  }
+</style>

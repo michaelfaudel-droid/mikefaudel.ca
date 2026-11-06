@@ -5,8 +5,26 @@ import Container from "../components/ui/Container.astro";
 import SectionHeading from "../components/ui/SectionHeading.astro";
 import WorkStack from "../components/patterns/WorkStack.astro";
 import ExperienceRow from "../components/patterns/ExperienceRow.astro";
+import WordFlip from "../components/ui/WordFlip.astro";
 import { experience } from "../data/experience";
 import mark from "../assets/brand/mark.png";
+
+// Shown in order, quickly, before landing on "effortless".
+const taglineWords = [
+  "intuitive",
+  "human",
+  "simple",
+  "natural",
+  "approachable",
+  "trustworthy",
+  "clear",
+  "calm",
+  "familiar",
+  "seamless",
+  "obvious",
+  "delightful",
+  "easy",
+];
 ---
 
 <BaseLayout ambient="animated">
@@ -28,7 +46,7 @@ import mark from "../assets/brand/mark.png";
           </span>
           Faudel
         </h1>
-        <p class="tagline">Making complex AI feel effortless</p>
+        <p class="tagline">Making complex AI feel <WordFlip words={taglineWords} final="effortless" /></p>
       </div>
     </Container>
   </section>
@@ -85,7 +103,8 @@ import mark from "../assets/brand/mark.png";
 
   .tagline {
     margin-top: var(--space-md);
-    font-size: var(--text-xl);
+    font-size: var(--text-2xl);
+    line-height: var(--leading-snug);
     color: var(--color-text-muted);
   }
 
