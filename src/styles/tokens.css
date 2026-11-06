@@ -78,6 +78,7 @@
   --color-surface-raised: var(--gray-800);
   --color-surface-feature: var(--navy-950);
   --color-surface-card: var(--gray-925);
+  --color-header-bg: color-mix(in srgb, var(--black) 72%, transparent);
   --color-border: color-mix(in srgb, var(--white) 12%, transparent);
   --color-text: var(--gray-100);
   --color-text-strong: var(--white);

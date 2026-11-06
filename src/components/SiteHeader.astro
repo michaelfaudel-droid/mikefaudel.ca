@@ -13,7 +13,7 @@ const path = Astro.url.pathname;
 const isCurrent = (href: string) => href !== "/" && path.startsWith(href);
 ---
 
-<header class="site-header">
+<header class="site-header" data-site-header>
   <Container class="inner">
     <a href="/" class="name">
       <Image
@@ -39,11 +39,64 @@ const isCurrent = (href: string) => href !== "/" && path.startsWith(href);
   </Container>
 </header>
 
+<script>
+  /*
+   * Hides the header while scrolling down and brings it back on any scroll up,
+   * so long pages keep the full screen but the menu is always one flick away.
+   * At the top of the page it stays transparent; once scrolled, it gets a backdrop.
+   */
+  const MIN_DELTA = 8; // ignore tiny scroll jitters
+
+  let lastY = window.scrollY;
+  let frame = 0;
+
+  const update = () => {
+    frame = 0;
+    const header = document.querySelector<HTMLElement>("[data-site-header]");
+    if (!header) return;
+    const y = Math.max(window.scrollY, 0);
+    const delta = y - lastY;
+    const past = y > header.offsetHeight;
+
+    header.toggleAttribute("data-solid", past);
+    if (!past) header.removeAttribute("data-hidden");
+    else if (delta > MIN_DELTA && !header.contains(document.activeElement)) header.setAttribute("data-hidden", "");
+    else if (delta < -MIN_DELTA) header.removeAttribute("data-hidden");
+
+    if (Math.abs(delta) > MIN_DELTA || !past) lastY = y;
+  };
+
+  window.addEventListener(
+    "scroll",
+    () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    },
+    { passive: true },
+  );
+  document.addEventListener("astro:page-load", () => {
+    lastY = window.scrollY;
+    update();
+  });
+</script>
+
 <style>
-  /* Transparent and scrolls with the page, so the ambient background shows through. */
+  /* Transparent at the top so the ambient background shows through; sticky so it can return on scroll up. */
   .site-header {
-    position: relative;
-    z-index: 5;
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    transition:
+      transform var(--duration-base) var(--ease-out),
+      background-color var(--duration-base) var(--ease-out);
+  }
+
+  .site-header[data-solid] {
+    background: var(--color-header-bg);
+    backdrop-filter: blur(12px);
+  }
+
+  .site-header[data-hidden] {
+    transform: translateY(-100%);
   }
 
   .site-header :global(.inner) {
@@ -95,9 +148,21 @@ const isCurrent = (href: string) => href !== "/" && path.startsWith(href);
     color: var(--color-text-strong);
   }
 
-  @media (width < 30rem) {
+  /* Phones: 44px-tall tap targets and an underline on the current page. */
+  @media (width < 48rem) {
     ul {
-      gap: var(--space-sm);
+      gap: var(--space-2xs);
+    }
+
+    nav a {
+      display: inline-block;
+      padding: var(--space-xs) var(--space-2xs);
+    }
+
+    nav a[aria-current="page"] {
+      text-decoration: underline;
+      text-decoration-thickness: 2px;
+      text-underline-offset: 0.4em;
     }
   }
 </style>
