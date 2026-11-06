@@ -9,6 +9,18 @@ import WordFlip from "../components/ui/WordFlip.astro";
 import { experience } from "../data/experience";
 import mark from "../assets/brand/mark.png";
 
+// Tells search engines who this site is about (shown in results, linked to LinkedIn).
+const person = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Mike Faudel",
+  url: "https://www.mikefaudel.ca",
+  jobTitle: "Product Designer",
+  worksFor: { "@type": "Organization", name: "Microsoft" },
+  knowsAbout: ["Product design", "UX design", "Enterprise AI", "Design systems"],
+  sameAs: ["https://www.linkedin.com/in/mikefaudel/"],
+};
+
 // Shown in order, quickly, before landing on "effortless".
 const taglineWords = [
   "intuitive",
@@ -27,7 +39,16 @@ const taglineWords = [
 ];
 ---
 
-<BaseLayout ambient="animated">
+<BaseLayout
+  description="Product designer at Microsoft specializing in enterprise AI tooling. Case studies from Copilot Studio and Nuance Mix on making complex AI feel effortless."
+  ambient="animated"
+>
+  <script
+    type="application/ld+json"
+    is:inline
+    set:html={JSON.stringify(person)}
+    slot="head"
+  />
   <section class="hero">
     <Container width="feature">
       <div>
