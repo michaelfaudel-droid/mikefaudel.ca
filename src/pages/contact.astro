@@ -8,7 +8,7 @@ const email = "michaelfaudel@gmail.com";
 ---
 
 <BaseLayout title="Contact" ambient="animated">
-  <Container width="feature" class="page">
+  <Container width="feature" class="page contact">
     <h1>Get in touch</h1>
 
     <p class="email">{email}</p>
@@ -26,6 +26,11 @@ const email = "michaelfaudel@gmail.com";
 <style>
   :global(.page) {
     padding-top: var(--space-section);
+  }
+
+  /* Fill the screen below the header so the footer starts just out of view. */
+  :global(.contact) {
+    min-height: calc(100svh - var(--header-height));
   }
 
   h1 {
