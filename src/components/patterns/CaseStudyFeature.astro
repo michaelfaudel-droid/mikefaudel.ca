@@ -45,7 +45,10 @@ const { href, title, summary, cover, coverAlt = "", stats = [], glow = "blue" } 
 </a>
 
 <style>
+  /* clip-path as well as overflow: Safari doesn't clip the blurred glow to rounded corners otherwise. */
   .feature {
+    --feature-radius: var(--radius-xl);
+
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -53,7 +56,8 @@ const { href, title, summary, cover, coverAlt = "", stats = [], glow = "blue" } 
     min-height: 31.25rem;
     padding: var(--space-2xl) var(--space-xl);
     overflow: hidden;
-    border-radius: var(--radius-xl);
+    border-radius: var(--feature-radius);
+    clip-path: inset(0 round var(--feature-radius));
     background: var(--color-surface-feature);
     color: var(--color-text);
     text-decoration: none;
@@ -154,8 +158,9 @@ const { href, title, summary, cover, coverAlt = "", stats = [], glow = "blue" } 
       grid-template-columns: 1fr;
       gap: var(--space-lg);
       min-height: 0;
+      --feature-radius: var(--radius-lg);
+
       padding: var(--space-lg) var(--space-md);
-      border-radius: var(--radius-lg);
     }
 
     .cta {
