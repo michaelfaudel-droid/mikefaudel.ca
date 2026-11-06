@@ -46,8 +46,10 @@ const { title, summary, company, role, duration, tint } = entry.data;
     max-width: calc(60rem + 2 * var(--gutter));
   }
 
+  /* Starts behind the transparent site header so the tint shows through it. */
   .header {
-    padding-block: var(--space-section) var(--space-2xl);
+    margin-top: calc(-1 * var(--header-height));
+    padding-block: calc(var(--space-section) + var(--header-height)) var(--space-2xl);
     margin-bottom: var(--space-xl);
     background: linear-gradient(to bottom, var(--header-tint), var(--color-bg));
   }
