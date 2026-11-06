@@ -66,3 +66,16 @@ stats:
 `src/pages/_consulting.astro` is the Services page, kept but not published (Astro skips
 files starting with `_`). To bring it back, rename it to `consulting.astro` and add
 `{ href: "/consulting", label: "Services" }` to the links in `src/components/SiteHeader.astro`.
+
+## Link-preview image
+
+`public/og.jpg` is what LinkedIn, Slack and messages show when the site's main pages are
+shared (case studies use their own cover). Its source is `scripts/og-image.html`. To
+regenerate it after editing:
+
+```sh
+"/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new --hide-scrollbars \
+  --allow-file-access-from-files --force-device-scale-factor=1 --window-size=1200,630 \
+  --virtual-time-budget=3000 --screenshot="$PWD/og.png" "file://$PWD/scripts/og-image.html"
+node -e "require('sharp')('og.png').jpeg({quality:88,mozjpeg:true}).toFile('public/og.jpg')" && rm og.png
+```

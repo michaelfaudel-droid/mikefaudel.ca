@@ -1,0 +1,55 @@
+<!doctype html>
+<!--
+  Source for public/og.jpg, the link-preview image shown when the site is shared.
+  Colours mirror src/styles/tokens.css (hard-coded here because this page renders
+  outside the site). To regenerate after editing, see "Link-preview image" in README.md.
+-->
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face {
+    font-family: "Lexend Deca";
+    src: url("../node_modules/@fontsource-variable/lexend-deca/files/lexend-deca-latin-wght-normal.woff2") format("woff2");
+    font-weight: 100 900;
+  }
+  @font-face {
+    font-family: "Hanken Grotesk";
+    src: url("../node_modules/@fontsource-variable/hanken-grotesk/files/hanken-grotesk-latin-wght-normal.woff2") format("woff2");
+    font-weight: 100 900;
+  }
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #000; }
+  .card { position: relative; width: 1200px; height: 630px; overflow: hidden; background: #000; }
+
+  /* The site's ambient backdrop, frozen: soft circles in the ambient palette over the base fill. */
+  .glow { position: absolute; inset: -40px; background:
+      radial-gradient(circle at 78% 30%, #143347 0, transparent 34%),
+      radial-gradient(circle at 92% 78%, #0d0229 0, transparent 30%),
+      radial-gradient(circle at 62% 70%, #112f38 0, transparent 30%),
+      radial-gradient(circle at 30% 18%, #2a3f4d 0, transparent 26%),
+      radial-gradient(circle at 15% 85%, #123045 0, transparent 32%),
+      radial-gradient(ellipse 80% 75% at 50% 50%, #141414 0, transparent 100%);
+    filter: blur(30px); }
+  .grain { position: absolute; inset: 0; background: url("../public/grain.png"); background-size: 128px; opacity: 0.075; }
+
+  .content { position: absolute; left: 88px; right: 88px; top: 92px; bottom: 76px; display: flex; flex-direction: column; }
+  h1 { margin: 0; font-family: "Lexend Deca"; font-weight: 400; font-size: 132px; line-height: 1; letter-spacing: -0.05em; text-transform: uppercase; color: #fff; }
+  .first { display: flex; align-items: center; gap: 0.15em; }
+  .first img { width: 0.87em; height: 0.87em; }
+  .tagline { margin: 34px 0 0; font-family: "Hanken Grotesk"; font-size: 46px; font-weight: 400; letter-spacing: -0.01em; color: #bfbfbf; }
+  .tagline strong { font-weight: 400; color: #fff; }
+  .meta { margin-top: auto; display: flex; justify-content: space-between; font-family: "Hanken Grotesk"; font-size: 24px; font-weight: 500; color: #8a8a8a; letter-spacing: 0.01em; }
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="glow"></div>
+    <div class="grain"></div>
+    <div class="content">
+      <h1><span class="first">Mike <img src="../src/assets/brand/mark.png" alt=""></span>Faudel</h1>
+      <p class="tagline">Making complex AI feel <strong>effortless</strong></p>
+      <div class="meta"><span>Product Designer · Enterprise AI</span><span>mikefaudel.ca</span></div>
+    </div>
+  </div>
+</body>
+</html>
