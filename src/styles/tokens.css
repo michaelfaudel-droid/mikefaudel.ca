@@ -120,6 +120,7 @@
   --width-content: 75rem;
   --width-feature: 63.5rem;
   --width-about-text: 48rem;
+  --width-reading: 46rem; /* case study text column, centred inside --width-feature */
   --header-height: 4rem;
 
   /* Stacking case-study cards: where the first card sticks, and how far each next one sits below it */

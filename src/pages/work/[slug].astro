@@ -16,7 +16,7 @@ const { title, summary, company, role, duration, tint } = entry.data;
 <BaseLayout title={title} description={summary}>
   <article>
     <header class="header" style={`--header-tint: var(--tint-${tint})`}>
-      <Container class="case-width">
+      <Container width="feature" class="reading">
         <p class="meta">{company}</p>
         <h1>{title}</h1>
         <dl class="details">
@@ -33,8 +33,8 @@ const { title, summary, company, role, duration, tint } = entry.data;
         </dl>
       </Container>
     </header>
-    <Container class="case-width">
-      <div class="prose">
+    <Container width="feature">
+      <div class="prose case-body">
         <Content />
       </div>
     </Container>
@@ -42,8 +42,19 @@ const { title, summary, company, role, duration, tint } = entry.data;
 </BaseLayout>
 
 <style>
-  :global(.case-width) {
-    max-width: calc(60rem + 2 * var(--gutter));
+  /*
+   * Text sits in a centred reading column; images and galleries span the full
+   * site column, so their edges line up with the cards on Home and Work.
+   */
+  .header :global(.reading) > *,
+  .case-body > :global(*) {
+    max-width: var(--width-reading);
+    margin-inline: auto;
+  }
+
+  .case-body > :global(p:has(img)),
+  .case-body > :global(.gallery) {
+    max-width: none;
   }
 
   /* Starts behind the transparent site header so the tint shows through it. */
@@ -52,10 +63,6 @@ const { title, summary, company, role, duration, tint } = entry.data;
     padding-block: calc(var(--space-section) + var(--header-height)) var(--space-2xl);
     margin-bottom: var(--space-xl);
     background: linear-gradient(to bottom, var(--header-tint), var(--color-bg));
-  }
-
-  h1 {
-    max-width: var(--width-prose);
   }
 
   .meta {
