@@ -1,6 +1,11 @@
 # mikefaudel.ca
 
-Portfolio site built with [Astro](https://astro.build), deployed to Cloudflare Pages.
+Portfolio site built with [Astro](https://astro.build), hosted on Cloudflare Workers
+(deploys automatically on every push to `main`).
+
+**New here, or back after a while? Read [SITE-GUIDE.md](SITE-GUIDE.md) first.** It covers
+where everything lives (hosting, DNS, domain, Search Console), how to make common
+changes, and the design decisions already made.
 
 ## Commands
 

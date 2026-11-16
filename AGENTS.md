@@ -1,3 +1,9 @@
+## Start here
+
+Read `SITE-GUIDE.md` before making changes. It explains hosting and deploys, the repo
+layout, where common edits go, the design-system rules, and decisions that shouldn't be
+undone.
+
 ## Development
 
 When starting the dev server, use background mode:
