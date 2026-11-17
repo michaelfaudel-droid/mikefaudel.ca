@@ -278,8 +278,6 @@ These came out of the launch review with Mike. They're deliberate, not oversight
   the value is `"TODO"`.
 - Case study image alt text was written from context during the migration and could use
   a review.
-- The resume says Copilot Studio has "33M+ active users", while the site says "230,000+
-  organizations". Make these consistent or clearly distinct.
 - Optional: Cloudflare Web Analytics (free, no cookie banner). Turn it on under zone →
   Analytics & Logs → Web Analytics.
 
